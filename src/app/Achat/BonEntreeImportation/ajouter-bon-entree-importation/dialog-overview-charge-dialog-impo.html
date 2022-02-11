@@ -1,0 +1,29 @@
+<h1 class="col-xs-8 text-center" mat-dialog-title>Modifier Article</h1>
+<div class="container" *ngIf='ligne_table'>
+    <div mat-dialog-content [formGroup]="form_modifier_charge">
+        <div class="form-group">
+            <mat-label for="name">Id Produit </mat-label>
+            <input type="text" class="form-control" formControlName="Id_Produit">
+        </div>
+        <div class="form-group">
+            <mat-label for="name">Nom Produit </mat-label>
+            <input type="text" class="form-control" formControlName="Nom_Produit">
+        </div>
+        <div class="form-group">
+            <mat-label for="name">Quantité </mat-label>
+            <input type="text" class="form-control" formControlName="qte_modifier_ch" min="0.1">
+        </div>
+         
+        <div class="form-group">
+            <mat-label for="name">Prix U Devise </mat-label>
+            <input type="text" class="form-control" formControlName="PrixU"  >
+        </div>
+           
+        
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button class="btn btn-default " (click)="fermerDialogue()">Fermer</button>
+    <button mat-button class="btn btn-primary " [mat-dialog-close]="data.index" (click)="modifier_ligne()"
+        [disabled]="verif">Sauvegarder</button>
+</div>

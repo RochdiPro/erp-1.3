@@ -1,0 +1,24 @@
+{
+    "/ERP/*":{
+        "target":"http://41.228.33.200:3333",
+        "secure":false,
+        "logLevel":"debug",         
+        "pathRewrite":
+        {
+            "^/ERP":""
+        }
+    }
+
+   ,
+    "/INFONET/*":{
+        "target":"http://41.228.33.200:3333",
+        "secure":false,
+        "logLevel":"debug",
+        "pathRewrite":
+        {
+            "^/INFONET":""
+        }
+    } 
+    
+}
+ 

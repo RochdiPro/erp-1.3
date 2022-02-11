@@ -1,0 +1,107 @@
+<h1 class="col-xs-8 text-center">Liste Bon Commande</h1>
+<br>
+<br>
+<br>
+
+<div class="position-relative custom-control">
+  <section>
+    <mat-form-field class="custom-width" [formGroup]="form" style="margin-left:10%;width:10%">
+      <mat-label>ID</mat-label>
+      <input matInput placeholder="ID" formControlName="id" (keyup)="filtre()">
+      <i matSuffix class="fa fa-filter" aria-hidden="true"></i>
+    </mat-form-field>
+
+    <mat-form-field style="margin-left:1%;width:10%">
+      <mat-label>Fournisseur</mat-label>
+      <mat-select formControlName="Fournisseur" (selectionChange)="choix_fr($event)" required>
+        <mat-option value=""></mat-option>
+        <mat-option *ngFor="let fournisseur of fournisseurs" [value]="fournisseur.id_Fr">
+          {{fournisseur.nom_Fournisseur}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field [formGroup]="form" style="margin-left: 1%;width:14%">
+      <mat-label>Devise </mat-label>
+      <mat-select formControlName="Devise" (selectionChange)="choix_type($event)">
+        <mat-option value=""></mat-option>
+        <mat-option value="DT">DT</mat-option>
+        <mat-option value="EUR">EUR</mat-option>
+        <mat-option value="USD">USD</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+     
+    <mat-form-field  [formGroup]="form" style="margin-left: 1%;width:13%">
+      <mat-label>
+        Date Livraison
+      </mat-label>
+      <input matInput formControlName="date" [matDatepicker]="picker" placeholder="DD/MM/YYYY">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field class="custom-width" [formGroup]="form" style="margin-left: 1%;width:12%">
+      <mat-label>Mode de livraison</mat-label>
+      <input matInput placeholder="local" formControlName="livraison" (keyup)="filtre()">
+      <i matSuffix class="fa fa-filter" aria-hidden="true"></i>
+    </mat-form-field>
+    <mat-form-field class="custom-width" [formGroup]="form" style="margin-left: 1%;width:12%">
+      <mat-label>Mode de Réglement</mat-label>
+      <input matInput placeholder="local" formControlName="reglement" (keyup)="filtre()">
+      <i matSuffix class="fa fa-filter" aria-hidden="true"></i>
+    </mat-form-field>
+
+  </section>
+</div>
+
+
+<table class="mb-0 table" mat-table [dataSource]="dataSource" matSort>
+
+  <ng-container matColumnDef="modifier">
+    <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+    <mat-cell *matCellDef="let element"> <i class="pe-7s-pen" title="Modifier Bon Entrée Local "
+        routerLink="/Menu/Menu-achat/Menu-bon-commande/Modifer-bon-commande/{{element.id_Bon_Commande}}"></i>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="id_Bon_Commande">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Id Bon </mat-header-cell>
+    <mat-cell *matCellDef="let element;let i=index;" id="element.id_Bon_Commande">
+      {{element.id_Bon_Commande}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="id_Fr">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>id_Fr </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.id_Fr}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="devise">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Devise </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.devise}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="date_Livraison">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>date_Livraison </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.date_Livraison | date:'dd-MM-yyyy'}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="mode_livraison">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>mode_livraison</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.mode_livraison}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="mode_reglement">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>mode_reglement </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="supprimer">
+    <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+    <mat-cell *matCellDef="let element"> <i class="pe-7s-trash"
+        (click)="SupprimerBonEntreeLocal(element.id_Bon_Entree_Local)" title="Supprimer Bon Commande"
+        style="color: red;"></i>
+      <i class="pe-7s-look" (click)='visualiserPDF(element.id_Bon_Entree_Local )' title="Voir PDF"
+        style="color: darkblue; margin-left: 5%;"></i>
+    </mat-cell>
+  </ng-container>
+
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</table>
+<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+<div class="align-self-center mx-auto">

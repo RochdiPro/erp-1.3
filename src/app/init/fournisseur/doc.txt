@@ -1,0 +1,23 @@
+convertir image 64: https://www.base64-image.de/
+
+ajouter cette ligne à styles.scss: @import '~@angular/material/prebuilt-themes/indigo-pink.css';
+installation des packages : *** pdf make: npm i pdfmake
+                            *** angular material : npm i @angular/material
+                            *** material stepper : npm i material-steppers
+                            *** angular cdk : npm i @angular/cdk
+                            *** material datepicker: npm i angular-material-datepicker
+                            **** npm i
+                            **** npm i @types/node
+
+ dans appModule:    HttpClientModule, 
+                    ReactiveFormsModule, 
+                    MatStepperModule,
+                    MatInputModule,
+                    MatFormFieldModule,
+                    BrowserAnimationsModule,
+                    MatSelectModule,
+                    DatePickerModule,
+                    MatNativeDateModule,
+                    MatCheckboxModule
+npm install file-saver --save
+npm install @types/file-saver --save

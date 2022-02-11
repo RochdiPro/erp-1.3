@@ -1,0 +1,40 @@
+.example-container {
+    height: 400px;
+    overflow: auto;
+  }
+  table {
+    width: 100%;
+  }
+  tr.example-detail-row {
+    height: 0;
+  }
+  
+  
+  tr.example-element-row:not(.example-expanded-row):hover {
+    background: whitesmoke;
+  }
+  
+  tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+  }
+  
+  .example-element-row td {
+    border-bottom-width: 0;
+  }
+  
+  .example-element-detail {
+    overflow: hidden;
+    display: flex;
+  }
+  
+  
+  .input-wrapper{
+    display: flex;
+    align-items: center;
+  }
+  
+  .input-wrapper * {
+    outline: none;
+    background: inherit;
+    border: none;
+  } 

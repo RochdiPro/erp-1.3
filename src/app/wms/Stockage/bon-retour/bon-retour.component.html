@@ -1,0 +1,170 @@
+<mat-vertical-stepper [linear]="isLinear" #stepper>
+  <mat-step [stepControl]="info">
+    <form>
+      <ng-template matStepLabel>Client / Facture </ng-template>
+      <div class="row">      
+        
+        <form [formGroup]="dateRangeForm"  >
+          <mat-form-field>
+      
+            <mat-label>Période</mat-label>
+      
+            <mat-date-range-input [rangePicker]="picker">
+              <input matStartDate placeholder="Date 1" required formControlName="fromDate">
+              <input matEndDate placeholder="Date 2" required formControlName="toDate">
+            </mat-date-range-input>
+      
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+      
+            <!-- Invalid Date Messages -->
+            <mat-error *ngIf="dateRangeForm.controls.fromDate.hasError('matStartDateInvalid')">date 1 invalid</mat-error>
+            <mat-error *ngIf="dateRangeForm.controls.toDate.hasError('matEndDateInvalid')">date 2 invalid</mat-error>
+      
+            <!-- Required Date Messages -->
+            <mat-error *ngIf="dateRangeForm.controls.fromDate.errors?.required">date 1 Svp </mat-error>
+            <mat-error *ngIf="dateRangeForm.controls.toDate.errors?.required"> Date 2 Svp</mat-error>
+      
+          </mat-form-field> 
+      </form>
+        <br>
+        
+      </div>
+      <div class="row">
+       
+        
+        
+        <br>
+        <div class="col-md-3 mb-3"  > 
+          <mat-form-field>
+            <mat-label>Client</mat-label>
+            <mat-select [(ngModel)]="info.client" [ngModelOptions]="{standalone: true}"
+              (ngModelChange)="get_Factures()">
+              <mat-option *ngFor="let l of Clients" value="{{l.id_Clt}}">{{l.id_Clt}} : {{l.nom_Client}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          
+
+        </div>
+      
+        <div style="margin-left: 40px;" class="col-md-3" *ngIf=" this.info.client ">
+          <mat-form-field>
+            <mat-label>Bon Livraison</mat-label>
+            <mat-select [(ngModel)]="info.facture" [ngModelOptions]="{standalone: true}"  >
+              <mat-option *ngFor="let f of Liste_bls" value="{{f.id_Bl}}">{{f.id_Bl}}</mat-option>
+            </mat-select>
+
+          </mat-form-field>
+        </div>
+      </div>
+
+      <button class="mb-2 mr-2 btn btn-primary active" (click)="suivant2()" mat-raised-button color="primary">
+        Suivant</button>
+    </form>
+  </mat-step>
+
+   
+
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel> Listes des  Articles </ng-template>
+      <!-- Lignes d'article  -->
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            
+            <th>Id produit</th>
+            <th>Nom produit</th>
+            <th>Qte</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let article  of  table ;let i = index;">
+             
+            <td>
+              <input type="text" value="{{article.id}}" disabled />
+            </td>
+            <td>
+              <input type="text" value="{{article.nom}}" disabled />
+            </td>
+            <td>
+              <input type="text" value="{{article.qte}}" disabled />
+            </td>
+            <td style="text-align: center;"> <i class="pe-7s-edit" title="spécifications Articles" (click)="plus(article)"></i> </td>
+
+          </tr>
+        </tbody>
+      </table>
+      <div class="row">
+
+        <button class="mb-2 mr-2 btn btn-primary active" mat-button matStepperPrevious>
+          <i class="fas fa-chevron-left mr-2"></i>Précédent
+        </button>
+
+        <button class="mb-2 mr-2 btn btn-primary active" matStepperNext mat-raised-button color="primary" (click)="suivante3()">
+          Suivant<i class="fas fa-chevron-right ml-2"></i></button>
+
+
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel icon>Cloture</ng-template>
+     
+    <div class="row">
+      <div class="col-md-8 mb-8">
+        <h6>
+          <strong> Liste Des Articles</strong>
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>ID Article</th>
+                <th>Nom Article</th>
+                <th>Quanitité</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let article  of  table2 ;let i=index"  >
+
+                <td></td>
+                <td>{{article.id}} </td>
+                <td>{{article.nom}} </td>
+                <td>{{article.qte2}} </td>
+
+              </tr>
+
+            </tbody>
+          </table>
+        </h6>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="col-md-4">
+          <mat-form-field>
+            <mat-label>Local</mat-label>
+            <mat-select [(ngModel)]="cloture.local" [ngModelOptions]="{standalone: true}">
+              <mat-option *ngFor="let l of locals" value="{{l.nom_Local}}">{{l.nom_Local}}</mat-option>
+            </mat-select>
+          </mat-form-field>           
+        </div>
+        <h4>Réclamation</h4>
+        <textarea [(ngModel)]="cloture.reclamation" [ngModelOptions]="{standalone: true}" matInput rows="5" cols="100"
+          placeholder="Réclamation"></textarea>
+
+      </div>
+    </div>
+    <div class="row">
+
+      <button class="mb-2 mr-2 btn btn-primary active" mat-button matStepperPrevious>
+        <i class="fas fa-chevron-left mr-2"></i>Précédent
+      </button>
+
+      <button class="mb-2 mr-2 btn btn-success" (click)="valide()"> Valider </button>
+
+
+    </div>
+  </mat-step>
+</mat-vertical-stepper>

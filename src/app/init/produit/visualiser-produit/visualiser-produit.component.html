@@ -1,0 +1,240 @@
+<h5 class="card-title">Visualiser le produit</h5>
+
+<div *ngIf="produitData" class="grid-container">
+    <div class="grid-item item1">
+        <div class="zoom">
+            <img id="myimage" src="data:image/png;base64,{{produitData.image}}" width="200" height="200"
+                style="margin-left: 10px;" (click)="afficherImage(produitData.id_Produit)" on-mouseover='aggrandir()' />
+        </div>
+    </div>
+
+    <div class="grid-item item2">
+        <mat-label style="border-bottom: 1px solid #DEDEDE; font-weight: bold;font-size: 20px;">
+            {{produitData.nom_Produit}} </mat-label>
+    </div>
+    <div class="grid-item item3" style="margin-top: -40px;">
+        <mat-label style="font-weight: bold;border-bottom: 1px solid #DEDEDE;"> Typologie Produit </mat-label><br>
+
+
+        <div class="row" *ngIf="produitData.type1 === 'n'" >
+
+            <mat-label><strong> Type de produit: </strong></mat-label>
+            <mat-label>-</mat-label>
+        </div>
+        <div class="row" *ngIf="produitData.type1 !== 'n'" >
+
+            <mat-label><strong> Type de produit: </strong></mat-label>
+            <mat-label>{{produitData.type1}}</mat-label>
+        </div>
+        <div class="row" *ngIf="produitData.type2 === 'n'">
+
+            <mat-label><strong>Sous-Type : </strong></mat-label>
+            <mat-label>-</mat-label>
+        </div>
+        <div class="row" *ngIf="produitData.type2 !== 'n'">
+
+            <mat-label><strong>Sous-Type : </strong></mat-label>
+            <mat-label>{{produitData.type2}}</mat-label>
+        </div>
+
+    </div>
+    <div class="grid-item item4" style="margin-top: -40px;">
+        <mat-label style="font-weight: bold;border-bottom: 1px solid #DEDEDE;">Catégorisation Produit</mat-label>
+
+        <div class="row" *ngIf="produitData.famille === 'n'">
+
+            <mat-label><strong> Famille de produit: </strong></mat-label>
+            <mat-label>-</mat-label>
+        </div>
+        <div class="row" *ngIf="produitData.famille !== 'n'">
+
+            <mat-label><strong> Famille de produit: </strong></mat-label>
+            <mat-label>{{produitData.famille}}</mat-label>
+        </div>
+        <div class="row" *ngIf="produitData.sous_Famille === 'n'">
+
+            <mat-label><strong>Catégorie : </strong></mat-label>
+            <mat-label>-</mat-label>
+        </div>
+        <div class="row" *ngIf="produitData.sous_Famille !== 'n'">
+
+            <mat-label><strong>Catégorie : </strong></mat-label>
+            <mat-label>{{produitData.sous_Famille}}</mat-label>
+        </div>
+
+
+    </div>
+    <div class="grid-item item5">
+        <mat-tab-group headerPosition="above">
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon class="example-tab-icon">info</mat-icon>
+                    Informations générales
+                </ng-template>
+
+                <div class="row">
+                    <div class="col-md-3 mb-3" *ngIf="produitData.marque === 'n'">
+                        <mat-label><strong>Marque : </strong></mat-label>
+                        <mat-label>-</mat-label>
+                    </div>
+                    <div class="col-md-3 mb-3" *ngIf="produitData.marque !== 'n'">
+                        <mat-label><strong>Marque : </strong></mat-label>
+                        <mat-label>{{produitData.marque}}</mat-label>
+                    </div>
+                    <div class="col-md-3 mb-3" *ngIf="produitData.source === 'n'">
+                        <mat-label><strong> Source : </strong></mat-label>
+                        <mat-label>-</mat-label>
+                    </div>
+                    <div class="col-md-3 mb-3" *ngIf="produitData.source !== 'n'">
+                        <mat-label><strong> Source : </strong></mat-label>
+                        <mat-label>{{produitData.source}}</mat-label>
+                    </div>
+                    <div class="col-md-3 mb-3" *ngIf="produitData.unite === 'n'">
+                        <mat-label><strong> Unité : </strong></mat-label>
+                        <mat-label>-</mat-label>
+                    </div>
+                    <div class="col-md-3 mb-3" *ngIf="produitData.unite !== 'n'">
+                        <mat-label><strong> Unité : </strong></mat-label>
+                        <mat-label>{{produitData.unite}}</mat-label>
+                    </div>
+                    <div class="col-md-3 mb-3"  *ngIf="produitData.valeur_Unite ===-1">
+                        <mat-label><strong>Valeur par Unité : </strong></mat-label>
+                        <mat-label>-</mat-label>
+                    </div>
+                    <div class="col-md-3 mb-3" *ngIf="produitData.valeur_Unite !== -1">
+                        <mat-label><strong>Valeur par Unité : </strong></mat-label>
+                        <mat-label>{{produitData.valeur_Unite}}</mat-label>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mb-3"  *ngIf="produitData.tva === 0">
+                        <mat-label><strong>Tva : </strong></mat-label>
+                        <mat-label>-</mat-label>
+
+                    </div>
+                    <div class="col-md-3 mb-3"  *ngIf="produitData.tva !== 0">
+                        <mat-label><strong>Tva : </strong></mat-label>
+                        <mat-label>{{produitData.tva}}</mat-label>
+
+                    </div>
+                    <div class="col-md-3 mb-3"  *ngIf="produitData.ngp === 'n'">
+
+                        <mat-label> <strong>Ngp : </strong></mat-label>
+                        <mat-label>-</mat-label>
+                    </div>
+                    <div class="col-md-3 mb-3" *ngIf="produitData.ngp !== 'n'">
+
+                        <mat-label> <strong>Ngp : </strong></mat-label>
+                        <mat-label>{{produitData.ngp}}</mat-label>
+                    </div>
+                    <div class="col-md-3 mb-3" *ngIf="produitData.fodec === 'n'">
+                        <mat-label><strong>Fodec : </strong> </mat-label>
+                        <mat-label>-</mat-label>
+
+                    </div>
+                    <div class="col-md-3 mb-3" *ngIf="produitData.fodec !== 'n'">
+                        <mat-label><strong>Fodec : </strong> </mat-label>
+                        <mat-label>{{produitData.fodec}}</mat-label>
+
+                    </div>
+                    <div class="col-md-3 mb-3" *ngIf="produitData.code_Barre === 'n'">
+                        <mat-label> <strong>Code à Barre : </strong> </mat-label>
+                        <mat-label>-</mat-label>
+                    </div>
+                    <div class="col-md-3 mb-3" *ngIf="produitData.code_Barre !== 'n'">
+                        <mat-label> <strong>Code à Barre : </strong> </mat-label>
+                        <mat-label>{{produitData.code_Barre}}</mat-label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mb-3" *ngIf="produitData.pays === 'n'">
+                        <mat-label> <strong>Pays : </strong> </mat-label>
+                        <mat-label>-</mat-label>
+                    </div>
+                    <div class="col-md-3 mb-3"  *ngIf="produitData.pays !== 'n'">
+                        <mat-label> <strong>Pays : </strong> </mat-label>
+                        <mat-label>{{produitData.pays}}</mat-label>
+                    </div>
+                    <div class="col-md-3 mb-3" *ngIf="produitData.ville === 'n'">
+                        <mat-label> <strong>Ville : </strong> </mat-label>
+                        <mat-label>-</mat-label>
+
+                    </div>
+                    <div class="col-md-3 mb-3" *ngIf="produitData.ville !== 'n'">
+                        <mat-label> <strong>Ville : </strong> </mat-label>
+                        <mat-label>{{produitData.ville}}</mat-label>
+
+                    </div>
+                    <div class="col-md-3 mb-3" *ngIf="produitData.couleur === 'n'">
+                        <mat-label><strong>Couleur : </strong> </mat-label>
+                        <mat-label>-</mat-label>
+
+                    </div>
+                    <div class="col-md-3 mb-3" *ngIf="produitData.couleur !== 'n'">
+                        <mat-label><strong>Couleur : </strong> </mat-label>
+                        <mat-label>{{produitData.couleur}}</mat-label>
+
+                    </div>
+                    <div class="col-md-3 mb-3" *ngIf="produitData.taille === 'n'">
+                        <mat-label><strong>Taille : </strong> </mat-label>
+                        <mat-label>-</mat-label>
+
+                    </div>
+                    <div class="col-md-3 mb-3" *ngIf="produitData.taille !== 'n'">
+                        <mat-label><strong>Taille : </strong> </mat-label>
+                        <mat-label>{{produitData.taille}}</mat-label>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mb-3" *ngIf="produitData.role === 'n'">
+
+                        <mat-label><strong>Role : </strong> </mat-label>
+                        <mat-label>-</mat-label>
+
+                    </div>
+                    <div class="col-md-3 mb-3" *ngIf="produitData.role !== 'n'">
+
+                        <mat-label><strong>Role : </strong> </mat-label>
+                        <mat-label>{{produitData.role}}</mat-label>
+
+                    </div>
+
+                </div>
+
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon></mat-icon>
+                    Fiche technique
+                </ng-template>
+                <div class="row" *ngIf="produitData.caracteristique_Technique === 'n'">
+                    <mat-label><strong>Fiche Technique : </strong> </mat-label>
+                    <mat-label>-</mat-label>
+                </div>
+                <div class="row" *ngIf="produitData.caracteristique_Technique !== 'n'">
+                    <mat-label><strong>Fiche Technique : </strong> </mat-label>
+                    <mat-label>{{produitData.caracteristique_Technique}}</mat-label>
+                </div>
+            </mat-tab>
+            <mat-tab>
+
+                <ng-template mat-tab-label>
+                    <mat-icon class="example-tab-icon">attach_file</mat-icon>
+                    Documents liés
+                </ng-template>
+                <div class="row" style="margin-left: 10px;margin-top: 20px;">
+                    <i class="fas fa-file-pdf" title="visualiser certificat" (click)="imprimerCertificat()"> Visualiser
+                        Certificat </i>
+
+                </div>
+                <div class="row" style="margin-left: 10px;margin-top: 20px;">
+                    <i class="fas fa-file-pdf" title="visualiser rfid" (click)="imprimerRfid()"> Visualiser Rfid </i>
+                </div>
+            </mat-tab>
+
+
+        </mat-tab-group>
+    </div>
+</div>

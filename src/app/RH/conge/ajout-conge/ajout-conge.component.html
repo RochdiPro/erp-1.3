@@ -1,0 +1,154 @@
+<mat-horizontal-stepper [linear]="passage_etape" #stepperClient>
+    <mat-step [stepControl]="Informations_Generales_Form">
+        <form [formGroup]="Informations_Generales_Form">
+
+            <ng-template matStepLabel>Informations Congé</ng-template>
+            <div class="row">
+
+                <div class="col-md-4 mb-4">
+                    <mat-form-field>
+
+                        <mat-label for="Type"> Type Congé </mat-label>
+                        <mat-select   formControlName="Type" id="Type" name="Type" placeholder="Type" required>
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let t of  types" [value]="t.nom">
+                                {{t.nom}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="Informations_Generales_Form.get('Type').invalid">
+                            {{MessageErreurType()}}</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-4 mb-4">
+
+                    <mat-form-field>
+                        <mat-label>Raison</mat-label>
+                        <input type="text" matInput formControlName="Raison"   >
+                        <mat-error *ngIf="Informations_Generales_Form.get('Raison').invalid">
+                             </mat-error>
+                    </mat-form-field>
+                </div>                
+                
+                <div class="col-md-4 mb-4">
+                    <mat-form-field>
+                        <mat-label> Pièce jointe </mat-label>
+                        <ngx-mat-file-input matInput id="Doc" name="Doc" formControlName="Doc"
+                            (change)="choixDoc()" placeholder=" Pièce jointe">
+                        </ngx-mat-file-input>
+                    </mat-form-field>
+                </div>
+                </div>
+
+                <div class="row">   
+                   
+                    <div class="col-md-4 mb-4">
+                        <mat-form-field>
+    
+                            <mat-label for="Nb_jour"> Nombre des Jours </mat-label>
+                            <input type="number" matInput formControlName="Nb_jour" id="Nb_jour"
+                                name="Nb_jour" required>
+                            <mat-error *ngIf="Informations_Generales_Form.get('Nb_jour').invalid">
+                                {{MessageErreurNb_jour()}}</mat-error>
+    
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4 mb-4">    
+                        <mat-form-field>                             
+                        <mat-label for="Date_debut"> Date Debut </mat-label>
+                        <input   matInput formControlName="Date_debut" id="Date_debut"[matDatepicker]="picker2"
+                        placeholder="DD/MM/YYYY" name="Date_debut"  (ngModelChange)="onPercentChange($event)" 
+                        required>
+                        
+                         <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>   
+                        </mat-form-field>
+    
+                    </div>                      
+                    
+                    <div class="col-md-4 mb-4">
+                        <mat-form-field>                      
+                        <mat-label for="Date_fin"> Date Fin</mat-label>
+                        <input  [(ngModel)]=d2  matInput formControlName="Date_fin" id="Date_fin"[matDatepicker]="picker3"
+                        placeholder="DD/MM/YYYY"  name="Date_fin" [disabled]='true' required> 
+                         <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                        <mat-datepicker #picker3></mat-datepicker>   
+                           
+                        </mat-form-field>
+                    </div>
+                </div>
+              
+                <div class="row">
+    
+                    <mat-form-field class="full-width">
+                        <mat-label>Description</mat-label>
+                        <textarea matInput formControlName="Description" id="Description" name="Description"
+                            placeholder="Description"></textarea>
+                    </mat-form-field>
+                </div>        
+                <div>
+                    <button mat-button matStepperNext class="btn-primary" style="margin-top: 20px;">Valider</button>
+                </div>
+        </form>
+    </mat-step>
+
+    <mat-step [stepControl]="Recapitulation_Form">
+        <form [formGroup]="Recapitulation_Form">
+
+            <ng-template matStepLabel>Récapitulation</ng-template>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <label for="Raison"> Raison :
+                    </label> {{Informations_Generales_Form.get('Raison').value}}
+                </div>
+                <div class="col-md-4 mb-4">
+                    <label for="Type">Type :
+                    </label> {{Informations_Generales_Form.get('Type').value}}
+                </div>
+               
+            </div>
+            <div class="row">
+                 
+                <div class="col-md-4 mb-4">
+                    <label for="Nb_jour">Nombre des jours : </label>
+                    {{Informations_Generales_Form.get('Nb_jour').value}}
+                </div>
+                <div class="col-md-4 mb-4">
+                    <label for="Date_Livraison_Identite">Date debut :
+                    </label>{{Informations_Generales_Form.get('Date_debut').value | date:'dd-MM-yyyy'}}
+                </div>
+                <div class="col-md-4 mb-4">
+                    <label for="Date_Livraison_Identite">Date fin  :
+                    </label>{{Informations_Generales_Form.get('Date_fin').value | date:'dd-MM-yyyy'}}
+                </div>
+           
+            </div>
+               
+            <div class="row">
+
+                <label for="Description"> Description : </label>
+                {{Informations_Generales_Form.get('Description').value}}
+            </div>
+            <div>
+                <button mat-button matStepperPrevious class="btn-primary"
+                    style="margin-top: 20px; margin-right: 20px;">Retour</button>
+                <button mat-button matStepperNext class="btn-primary" (click)="creerConge()">Enregistrer</button>
+            </div>
+        </form>
+    </mat-step>
+
+
+    <mat-step>
+        <ng-template matStepLabel>Finalisation</ng-template>
+        <div class="row">
+            <mat-label> Votre congé a ete enregistre  : </mat-label>
+            
+        </div>
+        <div>
+            <button mat-button class="btn-primary" matStepperPrevious
+                style="margin-top: 20px; margin-right: 20px;">Retour</button>
+           
+        </div>
+    </mat-step>
+</mat-horizontal-stepper>
+
+ 

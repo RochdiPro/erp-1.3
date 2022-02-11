@@ -1,0 +1,29 @@
+<h1 class="col-xs-8 text-center" mat-dialog-title>Type : Série</h1>
+&nbsp;
+&nbsp;
+ 
+<div class="container">
+    <div mat-dialog-content> 
+        <table class="table table-striped ">
+            <thead>
+                <tr>
+                    <th>Numéro Série</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tbody *ngFor="let qte of nbrQte;let i = index;">
+                <tr> 
+                    <td>
+                        <input style="width: 370px;"  type="text" placeholder="Numéro Série" name="{{i}}" [(ngModel)]="Numero_SerieS[i]"
+                            (keyup)="verifN_serieProduit($event,i)" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button class="btn btn-default " (click)="fermerDialogue()">Fermer</button>
+    <input type="file" class="file-input"  (change)="onFileSelected($event)" #fileUpload>
+    <button mat-button class="btn btn-primary " [disabled]="verifStock" (click)="VerifVide()">Valider</button>
+</div>

@@ -1,0 +1,80 @@
+<h1 class="col-xs-8 text-center" mat-dialog-title>Modifier Article</h1>
+<div class="container" *ngIf='ligne'>
+    <div class="col-xs-8 text-center">
+        <div class="spinner-border" role="status" *ngIf="loading">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <div mat-dialog-content [formGroup]="upDateArrForm" *ngIf="!loading">
+        <table class="mb-0 table ">
+            <tr>
+
+                <td>
+                     Id Produit  
+                </td>
+                <td> 
+                         Nom Produit  
+                </td>
+                <td>
+                    Quantité 
+                </td>
+                <td>
+                   Prix H.T U 
+                </td>
+                <td>
+                  TVA(%)  
+                </td>
+                <td>
+                     Fodec(%)  
+                </td>
+                <td>
+                    Remise(%) 
+                </td>
+
+            </tr>
+            <tr>
+
+                <td>
+                 
+                        <input type="text" class="form-control" formControlName="Id_Produit" [disabled]="true">
+                   
+                </td>
+                <td>
+               
+                        <input type="text" class="form-control" formControlName="Nom_Produit" [disabled]="true">
+                    
+                </td>
+                <td>
+                    
+                        <input type="text" class="form-control" formControlName="qte_modifier" min="0">
+                    
+                </td>
+                <td>
+                    
+                        <input type="text" class="form-control" formControlName="prixU_modifier" [disabled]="isExist">
+                    
+                </td>
+                <td>
+                    
+                        <input type="text" class="form-control" formControlName="Tva" [disabled]="true">
+                     
+                </td>
+                <td>
+                    
+                        <input type="text" class="form-control" formControlName="Fodec" [disabled]="true">
+                     
+                </td>
+                <td>
+                    
+                        <input type="text" class="form-control" formControlName="remise_modifier" max="100">
+                     
+                </td>
+
+            </tr>
+        </table>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button class="btn btn-default " (click)="fermerDialogue()">Fermer</button>
+    <button mat-button class="mb-2 mr-2 btn btn-primary" (click)="editerLigneTable()" style="position: absolute; right: 100px;">Sauvegarder</button>
+</div>

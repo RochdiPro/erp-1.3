@@ -1,0 +1,45 @@
+
+<input type="button" class="btn btn-success" value="Valider" style="margin-left: auto;display: block;" (click)="changer_etat('Valider')">
+<input type="button" class="btn btn-danger" value="Rejeté " style="margin-top: 10px ;margin-left: auto;display: block;" (click)="changer_etat('Rejeter')">
+ 
+<div *ngIf="employe" class="grid-container">
+    <div class="grid-item item1">
+        <div class="zoom">
+            <img id="myimage" src="data:image/png;base64,{{employe.image}}" width="200" height="200"
+                style="margin-left: 10px;" (click)="afficherImage(employe.id_Employe)" />
+        </div>
+    </div>
+    
+    <div class="grid-item item2">
+        <mat-label style="border-bottom: 1px solid #DEDEDE;font-weight: bold;font-size: 20px;"> {{employe.id}}
+        </mat-label>
+    </div>
+    
+    <div class="grid-item item3" style="margin-top: -40px;">
+
+        <div class="row">
+
+            <mat-label><strong> Employé   : </strong></mat-label>
+            <mat-label>{{employe.nom}}</mat-label>
+        </div>
+        <div class="row">
+            <mat-label><strong> Etat  : </strong></mat-label>
+            <mat-label>{{employe.etat}}</mat-label>
+        </div>
+        <div class="row">
+            <mat-label><strong> Nombre des Jours  : </strong></mat-label>
+            <mat-label>   {{employe.nb_Jours}}</mat-label>
+        </div>
+        <div class="row">
+            <mat-label><strong> Date debut : </strong></mat-label>
+            <mat-label>{{employe.date_Debut | date:'dd-MM-yyyy' }}</mat-label>
+        </div>        
+        <div class="row">
+            <mat-label><strong> Date Fin : </strong></mat-label>
+            <mat-label>{{employe.date_Fin | date:'dd-MM-yyyy' }}</mat-label>
+        </div>     
+    </div>
+    
+
+     
+</div>

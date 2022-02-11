@@ -1,0 +1,43 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="main-card mb-3 card">
+      <div class="card-header"> <i class="header-icon lnr-license icon-gradient bg-plum-plate pe-7s-edit"
+          (click)="Personnaliser()"> </i> Ajout personnalisé
+
+      </div>
+      <div class="card-body">
+        <div class="tab-content">
+          <div class="tab-pane active" id="tab-eg1-0" role="tabpanel">
+            <p> L'utilisateur a le droit de choisir quelques champs à utiliser lors de la création d'un produit </p>
+          </div>
+
+        </div>
+      </div>
+      <div class="d-block text-right card-footer">
+        <a (click)="Personnaliser()" class="btn-wide btn btn-success">Ajouter</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="main-card mb-3 card">
+      <div class="card-header">
+        <i class="header-icon lnr-license icon-gradient bg-plum-plate pe-7s-graph1" (click)="choisirContraintes()">
+        </i> Ajout sous contraintes
+
+      </div>
+      <div class="card-body">
+        <div class="tab-content">
+          <div class="tab-pane active" id="tab-eg1-0" role="tabpanel">
+            <p> L'utilisateur a le droit de creer une contrainte permettant du choisir tous les champs à utiliser lors
+              de la
+              création d'un produit </p>
+          </div>
+
+        </div>
+      </div>
+      <div class="d-block text-right card-footer">
+        <a (click)="choisirContraintes()" class="btn-wide btn btn-success">Ajouter</a>
+      </div>
+    </div>
+  </div>
+</div>

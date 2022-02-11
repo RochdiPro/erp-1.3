@@ -1,0 +1,490 @@
+<h1 mat-dialog-title>Choisissez vos contraintes </h1>
+<div mat-dialog-content>
+  <form [formGroup]="liste_contraintes_Form">
+    <div class="row">
+      <div class="col-md-3 mb-3">
+
+        <mat-select id="liste_Contraintes" formControlName="liste_Contraintes" name="liste_Contraintes"
+          class="form-control" placeholder="Liste des contraintes" (selectionChange)="ContraintesSelectionnee($event)">
+
+          <mat-option *ngFor="let contrainte of liste_contraintes" [value]="contrainte.id_Contrainte">
+            {{contrainte.nom_Contrainte}}</mat-option>
+        </mat-select>
+
+
+
+      </div>
+      <div>
+        <button mat-button type="button" [disabled]="boutonActiver" class="btn btn-primary" style="margin-left: 50px;"
+          (click)="ModifierContrainte()">Modifier</button>
+        <button mat-button type="button" class="btn btn-primary" style="margin-left: 50px;"
+          (click)="SupprimerContrainte()" [disabled]="boutonActiver">Supprimer</button>
+        <button mat-button type="button" class="btn btn-primary" style="margin-left: 50px;"
+          (click)="CreerContrainte()">Creer contraintes</button>
+      </div>
+    </div>
+  </form>
+  <div *ngIf="creer_contraintes">
+    <form [formGroup]="contraintes_Form">
+      <div class="row">
+        <div class="col-md-3 mb-3">
+          <mat-form-field>
+
+            <mat-label for="Nom_Contrainte"> Nom contraintes</mat-label>
+            <input type="text" matInput class="form-control" formControlName="Nom_Contrainte" id="Nom_Contrainte"
+              value="" name="Nom_Contrainte" required>
+
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Nom_Produit" name="Nom_Produit" formControlName="Nom_Produit" class="form-control"
+            color="primary" [disabled]=true [(ngModel)]="checked">
+            Nom Produit
+          </mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Marque" name="Marque" formControlName="Marque" class="form-control" color="primary">
+            Marque</mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Role" name="Role" formControlName="Role" class="form-control" color="primary">
+            Role
+          </mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Couleur" name="Couleur" formControlName="Couleur" class="form-control" color="primary">
+            Couleur
+          </mat-checkbox>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-3">
+          <mat-checkbox id="Fodec" name="Fodec" formControlName="Fodec" class="form-control" color="primary">
+            Fodec
+          </mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+          <mat-checkbox id="Tva" name="Tva" formControlName="Tva" class="form-control" color="primary">
+            Tva
+          </mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+          <mat-checkbox id="Ngp" name="Ngp" formControlName="Ngp" class="form-control" color="primary">
+            Ngp
+          </mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+          <mat-checkbox id="Code_Barre" class="form-control" color="primary" formControlName="Code_Barre"
+            name="Code_Barre">
+            Code à Barre
+          </mat-checkbox>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-3">
+          <mat-checkbox id="N_Serie" name="N_Serie" formControlName="N_Serie" class="form-control" color="primary">
+            N° Serie
+          </mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+          <mat-checkbox id="N_Imei" name="N_Imei" formControlName="N_Imei" class="form-control" color="primary">
+            N° Imei
+          </mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="N_Imei2" name="N_Imei2" formControlName="N_Imei2" class="form-control" color="primary">
+            N° Imei 2</mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="N_Lot" name="N_Lot" formControlName="N_Lot" class="form-control" color="primary">
+            N° Lot</mat-checkbox>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-3">
+          <mat-checkbox id="Unite" name="Unite" formControlName="Unite" class="form-control" color="primary">
+            Unité
+          </mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+          <mat-checkbox id="Valeur_Unite" name="Valeur_Unite" formControlName="Valeur_Unite" class="form-control"
+            color="primary">
+            Valeur Unité
+          </mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+          <mat-checkbox id="Temperature_Max" name="Temperature_Max" formControlName="Temperature_Max"
+            class="form-control" color="primary">
+            Temperature Max
+          </mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+          <mat-checkbox id="Temperature_Min" name="Temperature_Min" formControlName="Temperature_Min"
+            class="form-control" color="primary">
+            temperature Min
+          </mat-checkbox>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-3">
+          <mat-checkbox id="Pays" name="Pays" formControlName="Pays" class="form-control" color="primary">
+            Pays
+          </mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+          <mat-checkbox id="Ville" name="Ville" [(ngModel)]="etat_ville"
+            (change)="Ville_cocher(etat_ville?'ville_cocher':'ville_nn_cocher')" [ngModelOptions]="{standalone: true}"
+            formControlName="Ville" class="form-control" color="primary">
+            Ville
+          </mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+          <mat-checkbox id="Region" name="Region" [(ngModel)]="etat_region"
+            (change)="Region_cocher(etat_region?'region_cocher':'region_nn_cocher')"
+            [ngModelOptions]="{standalone: true}" formControlName="Region" class="form-control" color="primary">
+            Region
+          </mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+          <mat-checkbox id="Source" name="Source" formControlName="Source" class="form-control" color="primary">
+            Source
+          </mat-checkbox>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Type1" [ngModelOptions]="{standalone: true}" name="Type1" formControlName="Type1"
+            class="form-control" color="primary">
+            Type 1</mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Type2" name="Type2" [(ngModel)]="etat_type2"
+            (change)="Type2_cocher(etat_type2?'type2_cocher':'type2_nn_cocher')" [ngModelOptions]="{standalone: true}"
+            formControlName="Type2" class="form-control" color="primary">
+            Type 2</mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+          <mat-checkbox id="Famille" [(ngModel)]="etat_famille"
+            (change)="Famille_cocher(etat_famille?'famille_cocher':'famille_nn_cocher')"
+            [ngModelOptions]="{standalone: true}" name="Famille" formControlName="Famille" class="form-control"
+            color="primary">
+            Famille</mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Sous_Famille" name="Sous_Famille" formControlName="Sous_Famille" class="form-control"
+            color="primary" [(ngModel)]="etat_sous_famille"
+            (change)="Sous_famille_cocher(etat_sous_famille?'sous_famille_cocher':'sous_famille_nn_cocher')"
+            [ngModelOptions]="{standalone: true}">
+            Sous Famille</mat-checkbox>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Saison" name="Saison" formControlName="Saison" class="form-control" color="primary"> Saison
+          </mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+          <mat-checkbox id="Src_Img" name="Src_Img" formControlName="Src_Img" class="form-control" color="primary">
+            Image du produit
+          </mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Certificat" name="Certificat" formControlName="Certificat" class="form-control"
+            color="primary">
+            Certificat</mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Rfid" name="Rfid" formControlName="Rfid" class="form-control" color="primary"> Rfid
+          </mat-checkbox>
+        </div>
+
+      </div>
+
+      <div class="row">
+
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Date_Fabrication" name="Date_Fabrication" formControlName="Date_Fabrication"
+            class="form-control" color="primary">
+            Date du fabrication
+          </mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Date_Validite" name="Date_Validite" class="form-control" color="primary"
+            formControlName="Date_Validite">
+            Date du Validité
+          </mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Taille" name="Taille" formControlName="Taille" class="form-control" color="primary">
+            Taille
+          </mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Caracteristique_Technique" name="Caracteristique_Technique" class="form-control"
+            formControlName="Caracteristique_Technique" color="primary">
+            Fiche Technique
+          </mat-checkbox>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- lorsque l'utilisateur choisit une contrainte -->
+  <div *ngIf="ChoixContrainte">
+    <form [formGroup]="contraintes_Form">
+      <div class="row">
+        <div class="col-md-3 mb-3">
+          <mat-form-field *ngIf="!desactiver">
+
+            <mat-label for="Nom_Contrainte">Nom du Contrainte</mat-label>
+            <input type="text" matInput class="form-control" formControlName="Nom_Contrainte"
+              [(ngModel)]=contrainte.nom_Contrainte id="Nom_Contrainte" name="Nom_Contrainte">
+
+          </mat-form-field>
+          <mat-form-field *ngIf="desactiver">
+
+            <mat-label for="Nom_Contrainte">Nom du Contrainte</mat-label>
+            <input type="text" matInput class="form-control" formControlName="Nom_Contrainte"
+              [(ngModel)]=contrainte.nom_Contrainte id="Nom_Contrainte" name="Nom_Contrainte" readonly>
+
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Nom_Produit" formControlName="Nom_Produit" class="form-control" color="primary"
+            [(ngModel)]="checked" [disabled]=true> Nom Produit</mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Marque" formControlName="Marque" class="form-control" color="primary"
+            [(ngModel)]=contrainte.marque [disabled]="desactiver">
+            marque</mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Role" formControlName="Role" class="form-control" color="primary"
+            [(ngModel)]=contrainte.role [disabled]="desactiver"> Role
+          </mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Couleur" formControlName="Couleur" class="form-control" color="primary"
+            [(ngModel)]=contrainte.couleur [disabled]="desactiver">
+            Couleur</mat-checkbox>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Fodec" formControlName="Fodec" class="form-control" color="primary"
+            [(ngModel)]=contrainte.fodec [disabled]="desactiver">
+            Fodec</mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Tva" formControlName="Tva" class="form-control" color="primary" [(ngModel)]=contrainte.tva
+            [disabled]="desactiver">
+            tva</mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Ngp" formControlName="Ngp" class="form-control" color="primary" [(ngModel)]=contrainte.ngp
+            [disabled]="desactiver"> Ngp
+          </mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Code_Barre" class="form-control" color="primary" [(ngModel)]=contrainte.code_Barre
+            [disabled]="desactiver" formControlName="Code_Barre"> Code à Barre</mat-checkbox>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="N_Serie" formControlName="N_Serie" class="form-control" color="primary"
+            [(ngModel)]=contrainte.n_Serie [disabled]="desactiver">
+            Numéro serie</mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="N_Imei" formControlName="N_Imei" class="form-control" color="primary"
+            [(ngModel)]=contrainte.n_Imei [disabled]="desactiver">
+            Numéro Imei</mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="N_Imei2" formControlName="N_Imei2" class="form-control" color="primary"
+            [(ngModel)]=contrainte.n_Imei2 [disabled]="desactiver">
+            numéro Imei2</mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="N_Lot" formControlName="N_Lot" class="form-control" color="primary"
+            [(ngModel)]=contrainte.n_Lot [disabled]="desactiver">
+            Numéro lot</mat-checkbox>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Unite" formControlName="Unite" class="form-control" color="primary"
+            [(ngModel)]=contrainte.unite [disabled]="desactiver">
+            Unite</mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Valeur_Unite" formControlName="Valeur_Unite" class="form-control" color="primary"
+            [(ngModel)]=contrainte.valeur_Unite [disabled]="desactiver">
+            Valeur Unite</mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Temperature_Max" formControlName="Temperature_Max" class="form-control" color="primary"
+            [(ngModel)]=contrainte.temperature_Max [disabled]="desactiver"> Temperature Max
+          </mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Temperature_Min" formControlName="Temperature_Min" class="form-control" color="primary"
+            [(ngModel)]=contrainte.temperature_Min [disabled]="desactiver">
+            Temperature Min</mat-checkbox>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Pays" formControlName="Pays" class="form-control" color="primary"
+            [(ngModel)]=contrainte.pays [disabled]="desactiver"> Pays
+          </mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Ville" formControlName="Ville" class="form-control" color="primary"
+            [(ngModel)]=contrainte.ville [disabled]="desactiver"  (change)="Ville_cocher_modif(contrainte.ville?true:false)" [ngModelOptions]="{standalone: true}">
+            Ville</mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Region" formControlName="Region" class="form-control" color="primary"
+            [(ngModel)]=contrainte.region (change)="Region_cocher_modif(contrainte.region?true:false)" [ngModelOptions]="{standalone: true}" [disabled]="desactiver">
+            Region</mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Source" formControlName="Source" class="form-control" color="primary"
+            [(ngModel)]=contrainte.source [disabled]="desactiver"> Source</mat-checkbox>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Type1" formControlName="Type1" class="form-control" color="primary"
+            [(ngModel)]=contrainte.type1 [disabled]="desactiver">
+            Type1</mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Type2" formControlName="Type2" class="form-control" color="primary"
+            [(ngModel)]=contrainte.type2 (change)="Type2_cocher_modif(contrainte.type2?true:false)" [ngModelOptions]="{standalone: true}"[disabled]="desactiver">
+            Type2</mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Famille" formControlName="Famille" class="form-control" color="primary"
+            [(ngModel)]=contrainte.famille (change)="Famille_cocher_modif(contrainte.famille?true:false)" [ngModelOptions]="{standalone: true}" [disabled]="desactiver">
+            Famille</mat-checkbox>
+        </div>
+       
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Sous_Famille"  (change)="Sous_famille_cocher_modif(contrainte.sous_Famille?true:false)" [ngModelOptions]="{standalone: true}" formControlName="Sous_Famille" class="form-control" color="primary"
+            [(ngModel)]=contrainte.sous_Famille [disabled]="desactiver">
+            Sous Famille</mat-checkbox>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Saison" formControlName="Saison" class="form-control" color="primary"
+            [(ngModel)]=contrainte.saison [disabled]="desactiver"> Saison</mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Src_Img" formControlName="Src_Img" class="form-control" color="primary"
+            [(ngModel)]=contrainte.src_Img [disabled]="desactiver"> Image
+          </mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Certificat" formControlName="Certificat" class="form-control" color="primary"
+            [(ngModel)]=contrainte.certificat [disabled]="desactiver">
+            Certificat</mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Rfid" formControlName="Rfid" class="form-control" color="primary"
+            [(ngModel)]=contrainte.rfid [disabled]="desactiver"> Rfid
+          </mat-checkbox>
+        </div>
+
+      </div>
+
+      <div class="row">
+
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Date_Fabrication" formControlName="Date_Fabrication" class="form-control" color="primary"
+            [(ngModel)]=contrainte.date_Fabrication [disabled]="desactiver"> Date du fabrication</mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Date_Validite" class="form-control" color="primary" [(ngModel)]=contrainte.date_Validite
+            [disabled]="desactiver" formControlName="Date_Validite">Date de validité</mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox id="Taille" formControlName="Taille" class="form-control" color="primary"
+            [(ngModel)]=contrainte.taille [disabled]="desactiver">
+            Taille</mat-checkbox>
+        </div>
+        <div class="col-md-3 mb-3">
+
+          <mat-checkbox [disabled]="desactiver" id="Caracteristique_Technique" name="Caracteristique_Technique"
+            class="form-control" formControlName="Caracteristique_Technique" color="primary"
+            [(ngModel)]=contrainte.caracteristique_Technique> Fiche Technique</mat-checkbox>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button class="btn-primary" (click)="Annuler()">Annuler</button>
+  <button mat-button class="btn-primary" (click)="Valider()" cdkFocusInitial style="margin-left: 50px;">Valider
+    le choix</button>
+</div>

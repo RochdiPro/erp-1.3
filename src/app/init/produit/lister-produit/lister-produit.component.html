@@ -1,0 +1,332 @@
+ 
+
+
+<div class="row">
+
+
+    <div class="col-md-3 mb-3">
+        <mat-label for="filtreProduit_par">Choisir un filtre</mat-label>
+
+        <mat-select id="filtreProduit_par" name="filtreProduit_par" (selectionChange)="ChoixFiltre($event)">
+            <mat-option *ngFor="let filtre of liste_Filtres" [value]="filtre">
+                <span *ngIf="filtre=='id_produit'">Code Produit</span>
+                <span *ngIf="filtre=='caracteristique_technique'">Caractéristique technique</span>
+                <span *ngIf="filtre=='certificat'">Certificat</span>
+                <span *ngIf="filtre=='certificat_type'">Type de certificat</span>
+                <span *ngIf="filtre=='code_barre'">Code à barre</span>
+                <span *ngIf="filtre=='couleur'">Couleur</span>
+                <span *ngIf="filtre=='date_creation'">Date de création de produit</span>
+                <span *ngIf="filtre=='date_fabrication'">Date fabrication</span>
+                <span *ngIf="filtre=='date_validite'">Date validité</span>
+                <span *ngIf="filtre=='famille'">Famille de produit</span>
+                <span *ngIf="filtre=='fodec'">Fodec</span>
+                <span *ngIf="filtre=='image'">Image</span>
+                <span *ngIf="filtre=='image_type'">Type d'image</span>
+                <span *ngIf="filtre=='marque'">Marque</span>
+                <span *ngIf="filtre=='n_imei'">Numéro Imei</span>
+                <span *ngIf="filtre=='n_imei2'">Numéro Imei 2</span>
+                <span *ngIf="filtre=='n_serie'">Numéro de serie</span>
+                <span *ngIf="filtre=='n_lot'">Numéro de lot</span>
+                <span *ngIf="filtre=='ngp'">Ngp</span>
+                <span *ngIf="filtre=='nom_produit'">Nom de produit</span>
+                <span *ngIf="filtre=='pays'">Pays</span>
+                <span *ngIf="filtre=='region'">Region</span>
+                <span *ngIf="filtre=='rfid'">Rfid</span>
+                <span *ngIf="filtre=='rfid_type'">Type de rfid</span>
+                <span *ngIf="filtre=='role'">Role</span>
+                <span *ngIf="filtre=='saison'">Saison</span>
+                <span *ngIf="filtre=='source'">Source</span>
+                <span *ngIf="filtre=='sous_famille'">Sous famille de produit</span>
+                <span *ngIf="filtre=='taille'">Taille de produit</span>
+                <span *ngIf="filtre=='temperature_max'">Temperature maximale</span>
+                <span *ngIf="filtre=='temperature_min'">Temperature minimale</span>
+                <span *ngIf="filtre=='tva'">Tva</span>
+                <span *ngIf="filtre=='type1'">Type de produit</span>
+                <span *ngIf="filtre=='type2'">Sous type de produit</span>
+                <span *ngIf="filtre=='unite'">Unité de mesure</span>
+                <span *ngIf="filtre=='valeur_unite'">Valeur par unité</span>
+                <span *ngIf="filtre=='ville'">Ville</span>
+            </mat-option>
+        </mat-select>
+    </div>
+    <div class="search-wrapper active"
+    *ngIf=" filtre==='date_creation' ">
+    <div class="input-holder">
+        <input matInput [(ngModel)]="valeurRecherche" [matDatepicker]="picker" disabled placeholder="MM/DD/YYYY"
+            #rechercheParDate style="width: 200px; padding: 10px;" (dateChange)=filtrerProduitParDate()>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker disabled="false"></mat-datepicker>
+        <button class="search-icon" (click)="filtrerProduit()"><span></span></button>
+    </div>
+</div>
+    <div class="search-wrapper active"
+        *ngIf="filtre==='' || filtre==='ville' || filtre==='type2' || filtre==='type1' ||filtre==='taille'
+     || filtre==='sous_famille' ||filtre==='source' ||filtre==='saison' ||filtre==='role' ||filtre==='rfid' ||filtre==='region'
+      ||filtre==='pays' ||filtre==='nom_produit' ||filtre==='marque' ||filtre==='famille' ||filtre==='couleur' ||filtre==='code_barre' ||filtre==='caracteristique_technique'">
+        <div class="input-holder">
+            <input type="text" class="search-input" placeholder="Saisir pour chercher" [(ngModel)]="valeurRecherche"
+                (keyup)=filtrerProduitParLettre() id="valeurRecherche" name="valeurRecherche">
+
+            <button class="search-icon" (click)="filtrerProduit()"><span></span></button>
+        </div>
+
+    </div>
+    <div class="search-wrapper active" *ngIf="filtre==='valeur_unite'  || filtre==='id_produit' ">
+        <div class="input-holder">
+            <input type="number" class="search-input" placeholder="Saisir une valeur numérique"
+                [(ngModel)]="valeurRecherche" (keyup)=filtrerProduitParLettre() id="valeurRecherche"
+                name="valeurRecherche">
+            <button class="search-icon" (click)="filtrerProduit()"><span></span></button>
+        </div>
+    </div>
+    <div class="search-wrapper active" *ngIf="filtre==='date_fabrication' ">
+
+        <div class="input-holder">
+            <mat-select style="width: 200px;padding: 10px" [(ngModel)]="valeurRecherche"
+                (selectionChange)="validerRechercheBooleen($event)" placeholder="Choisir une valeur"
+                id="valeurRecherche" name="valeurRecherche">
+                <mat-option value="1900-01-01">Avec date de fabrication</mat-option>
+                <mat-option value="1900-01-02">Sans date de fabrication</mat-option>
+            </mat-select>
+            <button class="search-icon" (click)="filtrerProduit()"><span></span></button>
+        </div>
+
+    </div>
+    <div class="search-wrapper active" *ngIf="filtre==='date_validite' ">
+        <div class="input-holder">
+            <mat-select style="width: 200px;padding: 10px" [(ngModel)]="valeurRecherche"
+                (selectionChange)="validerRechercheBooleen($event)" placeholder="Choisir une valeur"
+                id="valeurRecherche" name="valeurRecherche">
+                <mat-option value="1900-01-01">Avec date de validité</mat-option>
+                <mat-option value="1900-01-02">Sans date de validité</mat-option>
+            </mat-select>
+            <button class="search-icon" (click)="filtrerProduit()"><span></span></button>
+        </div>
+
+    </div>
+    <div class="search-wrapper active" *ngIf="filtre==='temperature_min' ">
+        <div class="input-holder">
+            <mat-select style="width: 200px;padding: 10px" [(ngModel)]="valeurRecherche"
+                (selectionChange)="validerRechercheBooleen($event)" placeholder="Choisir une valeur"
+                id="valeurRecherche" name="valeurRecherche">
+                <mat-option value="1">Avec temperature min</mat-option>
+                <mat-option value="0">Sans temperature min</mat-option>
+            </mat-select>
+            <button class="search-icon" (click)="filtrerProduit()"><span></span></button>
+        </div>
+    </div>
+    <div class="search-wrapper active" *ngIf="filtre==='temperature_max' ">
+        <div class="input-holder">
+            <mat-select style="width: 200px;padding: 10px" [(ngModel)]="valeurRecherche"
+                (selectionChange)="validerRechercheBooleen($event)" placeholder="Choisir une valeur"
+                id="valeurRecherche" name="valeurRecherche">
+                <mat-option value="1">Avec temperature max</mat-option>
+                <mat-option value="0">Sans temperature max</mat-option>
+            </mat-select>
+            <button class="search-icon" (click)="filtrerProduit()"><span></span></button>
+        </div>
+    </div>
+    <div class="search-wrapper active" *ngIf="filtre==='n_lot' ">
+        <div class="input-holder">
+            <mat-select style="width: 200px;padding: 10px" [(ngModel)]="valeurRecherche"
+                (selectionChange)="validerRechercheBooleen($event)" placeholder="Choisir une valeur"
+                id="valeurRecherche" name="valeurRecherche">
+                <mat-option value="1">Avec numéro de lot</mat-option>
+                <mat-option value="0">Sans numéro de lot</mat-option>
+            </mat-select>
+            <button class="search-icon" (click)="filtrerProduit()"><span></span></button>
+        </div>
+    </div>
+    <div class="search-wrapper active" *ngIf="filtre==='n_serie' ">
+        <div class="input-holder">
+            <mat-select style="width: 200px;padding: 10px" [(ngModel)]="valeurRecherche"
+                (selectionChange)="validerRechercheBooleen($event)" placeholder="Choisir une valeur"
+                id="valeurRecherche" name="valeurRecherche">
+                <mat-option value="1">Avec numéro de serie</mat-option>
+                <mat-option value="0">Sans numéro de serie</mat-option>
+            </mat-select>
+            <button class="search-icon" (click)="filtrerProduit()"><span></span></button>
+        </div>
+    </div>
+    <div class="search-wrapper active" *ngIf="filtre==='n_imei' ">
+        <div class="input-holder">
+            <mat-select style="width: 200px;padding: 10px" [(ngModel)]="valeurRecherche"
+                (selectionChange)="validerRechercheBooleen($event)" placeholder="Choisir une valeur"
+                id="valeurRecherche" name="valeurRecherche">
+                <mat-option value="1">Avec temperature min</mat-option>
+                <mat-option value="0">Sans temperature min</mat-option>
+            </mat-select>
+            <button class="search-icon" (click)="filtrerProduit()"><span></span></button>
+        </div>
+    </div>
+    <div class="search-wrapper active" *ngIf="filtre==='n_imei2' ">
+        <div class="input-holder">
+            <mat-select style="width: 200px;padding: 10px" [(ngModel)]="valeurRecherche"
+                (selectionChange)="validerRechercheBooleen($event)" id="valeurRecherche" name="valeurRecherche">
+                <mat-option value="1">Avec deux numéros d'imei</mat-option>
+                <mat-option value="0">Sans deux numéros d'imei</mat-option>
+            </mat-select>
+            <button class="search-icon" (click)="filtrerProduit()"><span></span></button>
+        </div>
+    </div>
+    <div class="search-wrapper active" *ngIf="filtre==='fodec' ">
+        <mat-form-field>
+            <mat-label for=" valeurRecherche">Recherche</mat-label>
+            <mat-select [(ngModel)]="valeurRecherche" (selectionChange)="validerRechercheBooleen($event)"
+                id="valeurRecherche" name="valeurRecherche">
+                <mat-option *ngFor="let fodec of categorie_fodec" [value]="fodec.nom">{{fodec.nom}}
+                </mat-option>
+
+            </mat-select>
+            <mat-hint>Choisir la valeur de recherche</mat-hint>
+        </mat-form-field>
+        <button mat-button (click)="filtrerClient()" class="mat-button mat-button-base"
+            style="border: 0px;color: blue;">
+            <mat-icon>search</mat-icon>
+        </button>
+    </div>
+    <div class="search-wrapper active" *ngIf="filtre==='tva' ">
+        <mat-form-field>
+            <mat-label for=" valeurRecherche">Recherche</mat-label>
+            <mat-select [(ngModel)]="valeurRecherche" (selectionChange)="validerRechercheBooleen($event)"
+                id="valeurRecherche" name="valeurRecherche">
+                <mat-option *ngFor="let tva of categorie_tva" [value]="tva.valeur">{{tva.valeur}}
+                </mat-option>
+
+            </mat-select>
+            <mat-hint>Choisir la valeur de recherche</mat-hint>
+        </mat-form-field>
+        <button mat-button (click)="filtrerClient()" class="mat-button mat-button-base"
+            style="border: 0px;color: blue;">
+            <mat-icon>search</mat-icon>
+        </button>
+    </div>
+    <div class="search-wrapper active" *ngIf="filtre==='ngp' ">
+        <mat-form-field>
+            <mat-label for=" valeurRecherche">Recherche</mat-label>
+            <mat-select [(ngModel)]="valeurRecherche" (selectionChange)="validerRechercheBooleen($event)"
+                id="valeurRecherche" name="valeurRecherche">
+                <mat-option *ngFor="let ngp of categorie_ngp" [value]="ngp.nom">{{ngp.valeur}}
+                </mat-option>
+
+            </mat-select>
+            <mat-hint>Choisir la valeur de recherche</mat-hint>
+        </mat-form-field>
+        <button mat-button (click)="filtrerClient()" class="mat-button mat-button-base"
+            style="border: 0px;color: blue;">
+            <mat-icon>search</mat-icon>
+        </button>
+    </div>
+    <div class="search-wrapper active" *ngIf="filtre==='unite' ">
+        <mat-form-field>
+            <mat-label for=" valeurRecherche">Recherche</mat-label>
+            <mat-select [(ngModel)]="valeurRecherche" (selectionChange)="validerRechercheBooleen($event)"
+                id="valeurRecherche" name="valeurRecherche">
+                <mat-option *ngFor="let unite of categorie_unite" [value]="unite.nom">{{unite.nom}}
+                </mat-option>
+
+            </mat-select>
+            <mat-hint>Choisir la valeur de recherche</mat-hint>
+        </mat-form-field>
+        <button mat-button (click)="filtrerClient()" class="mat-button mat-button-base"
+            style="border: 0px;color: blue;">
+            <mat-icon>search</mat-icon>
+        </button>
+    </div>
+<br>
+</div>
+
+<div class="position-relative custom-control">
+    <section>
+        <mat-form-field class="custom-width" [formGroup]="form" style="margin-left: 20%;width: 16%;">
+            <mat-label>ID</mat-label>
+            <input matInput placeholder="ID" formControlName="id_Produit" (keyup)="filtre_prod()" id="id">
+            <i matSuffix class="fa fa-filter" aria-hidden="true"></i>
+        </mat-form-field>
+        <mat-form-field class="custom-width" [formGroup]="form" style="margin-left: 3%;width: 16%;">
+            <mat-label>Nom</mat-label>
+            <input matInput placeholder="Nom" formControlName="nom_Produit" (keyup)="filtre_prod()" id="id">
+            <i matSuffix class="fa fa-filter" aria-hidden="true"></i>
+        </mat-form-field>
+        <mat-form-field class="custom-width" [formGroup]="form" style="margin-left: 1%;width: 10%;">
+            <mat-label>Marque</mat-label>
+            <input matInput placeholder="Categorie local" formControlName="marque"
+                (keyup)="filtre_prod()" id="id">
+            <i matSuffix class="fa fa-filter" aria-hidden="true"></i>
+        </mat-form-field> 
+        <mat-form-field class="custom-width" [formGroup]="form" style="margin-left: 1%;width: 10%;">
+            <mat-label>Tva</mat-label>
+            <input matInput placeholder="7/13/19" formControlName="tva" (keyup)="filtre_prod()" id="responsable">
+            <i matSuffix class="fa fa-filter" aria-hidden="true"></i>
+        </mat-form-field> 
+    </section>
+</div>
+ <mat-progress-bar mode="indeterminate" *ngIf='chargementEnCours'></mat-progress-bar>
+
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+        <!--Colonne id -->
+        <ng-container matColumnDef="editer">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="ID">
+                <i class="pe-7s-pen" title="Modifier  "
+                    routerLink="/Menu/Menu-init/Menu-produit/Modifer-produit/{{element.id_Produit}}">
+                </i>
+            </mat-cell>
+        </ng-container>
+          <!--Colonne id -->
+          <ng-container matColumnDef="Image">
+ 
+
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Image </mat-header-cell>
+              <mat-cell *matCellDef="let element" data-label="Image"> <img src="data:image/png;base64,{{element.image}}"
+                style="height: 50px;width: 50px;margin-top: 2px; margin-bottom: 2px;" /> </mat-cell>
+        </ng-container>
+ 
+        <!--Colonne id -->
+        <ng-container matColumnDef="id_Produit">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+              <mat-cell *matCellDef="let element" data-label="Id"> {{element.id_Produit}}</mat-cell>
+        </ng-container>
+        <!--Colonne responsable -->
+        <ng-container matColumnDef="nom_Produit">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Nom Local </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="Nom"> {{element.nom_Produit}}</mat-cell>
+        </ng-container>
+ 
+ 
+        <!--Colonne Ancien ID -->
+        <ng-container matColumnDef="marque">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Marque </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="Marque"> {{element.marque}} </mat-cell>
+        </ng-container>
+        <!--Colonne Réclamation -->
+        <ng-container matColumnDef="tva">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Tva </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="Tva"> {{element.tva}} </mat-cell>
+        </ng-container>
+ 
+        <!--Colonne supprimer -->
+        <ng-container matColumnDef="supprimer">
+            <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+            <mat-cell *matCellDef="let element" style="text-align: center;">
+                <i class="pe-7s-search"
+                routerLink="/Menu/Menu-init/Menu-produit/Visualiser-produit/{{element.id_Produit}}" title="Visualiser produit"
+                style="color: green;"></i>
+                <i class="pe-7s-cloud-download" title="Télécharger PDF" (click)="genererPDF(element.id_Local)"
+                    style="color: darkblue; margin-left: 15px;">
+                </i>
+                <i class="pe-7s-trash" (click)="SupprimerLocal(element.id_Local)" title="Supprimer  "
+                    style="color: red; margin-left: 15px;">
+                </i>
+ 
+            </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </table>
+ 
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+ </div> 
+ 
+ 

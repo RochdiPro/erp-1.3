@@ -1,0 +1,146 @@
+<h5>Liste des Employes</h5>
+<div class="row">
+    <div class="col-md-3 mb-3">
+        <mat-label for="filtreclient_par">Choisir un filtre</mat-label>
+        <mat-select id="filtreclient_par" name="filtreclient_par" (selectionChange)="ChoixFiltre($event)">
+            <mat-option *ngFor="let filtre of liste_Filtres" [value]="filtre">
+                <span *ngIf="filtre=='id'">ID Employé</span>
+                <span *ngIf="filtre=='date_debut'">Date Debut </span>                   
+                <span *ngIf="filtre=='date_fin'">Date fin </span>
+                <span *ngIf="filtre=='description'">Description</span>
+                <span *ngIf="filtre=='document'">Document</span>     
+                <span *ngIf="filtre=='document_type'">Document_type</span>          
+                <span *ngIf="filtre=='etat'">Etat de congé</span> 
+                <span *ngIf="filtre=='nb_jours'">Nombre des jours </span> 
+                <span *ngIf="filtre=='raison'">Raison</span>
+                <span *ngIf="filtre=='type'">Type de congé</span>
+                <span *ngIf="filtre=='id_employe'">ID Employé</span>
+                
+            </mat-option>
+        </mat-select>
+    </div>
+      
+  
+</div>
+<mat-progress-bar mode="indeterminate" *ngIf='chargementEnCours'></mat-progress-bar>
+<div class="example-container mat-elevation-z8">
+
+    <table mat-table [dataSource]="Employes" [filterType]="typeFiltre" matTableFilter [exampleEntity]="entiterFiltre"
+        matSort multiTemplateDataRows>
+        <!-- editer -->
+        <ng-container matColumnDef="editer">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let element"> <i class="pe-7s-pen" title="Modifier Employe"
+                    routerLink="/Menu/Menu-conge/Modifer-conge/{{element.id}}"></i></td>
+        </ng-container>        
+       
+        <!-- Nom Employe -->
+        <ng-container matColumnDef="employe">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <div class="input-wrapper">
+                    <img class="input-icon" width="20px" height="20px" src=".././assets/svg/filter_alt-24px.svg">
+                    <input class="plainInput mat-typography" placeholder="Employe" size="5"
+                        >
+                </div>
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.employe}}</td>
+        </ng-container>
+        <!-- Categorie client -->
+        <ng-container matColumnDef="etat">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <div class="input-wrapper">
+                    <img class="input-icon" width="20px" height="20px" src=".././assets/svg/filter_alt-24px.svg">
+                    <input class="plainInput mat-typography" placeholder="Etat" size="18"
+                      >
+                </div>
+            </th>
+            <td mat-cell *matCellDef="let element">{{element.etat}} </td>
+        </ng-container>
+        <!-- code Tva client -->
+        <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <div class="input-wrapper">
+                    <img class="input-icon" width="20px" height="20px" src=".././assets/svg/filter_alt-24px.svg">
+                    <input class="plainInput mat-typography" placeholder="Type" size="18"
+                          >
+                </div>
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.type}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="nb_jour">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <div class="input-wrapper">
+                    <img class="input-icon" width="20px" height="20px" src=".././assets/svg/filter_alt-24px.svg">
+                    <input class="plainInput mat-typography" placeholder="Nb_jours" size="18"
+                     >
+                </div>
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.nb_Jours}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="raison">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <div class="input-wrapper">
+                    <img class="input-icon" width="20px" height="20px" src=".././assets/svg/filter_alt-24px.svg">
+                    <input class="plainInput mat-typography" placeholder="Raison" size="18"
+                       >
+                </div>
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.raison}}
+            </td>
+        </ng-container>
+        
+
+        <ng-container matColumnDef="visualiser">
+            <th mat-header-cell *matHeaderCellDef>
+            </th>
+            <td mat-cell *matCellDef="let element">
+                <i class="pe-7s-search" routerLink="/Menu/Menu-conge/Visualiser-conge/{{element.id}}"
+                    title="Visualiser produit" style="color: green;">
+                </i>
+            </td>
+        </ng-container>
+        <!-- Supprimer -->
+        <ng-container matColumnDef="Supprimer">
+            <th mat-header-cell *matHeaderCellDef>
+            </th>
+            <td mat-cell *matCellDef="let element">
+                <i class="pe-7s-trash" (click)="supprimerconge(element.id)" title="Supprimer employe"
+                    style="color: red;">
+                </i>
+            </td>
+        </ng-container>
+        <!-- Colonne de contenu développé - La ligne de détail est composée de cette colonne qui s'étend sur toutes les colonnes-->
+        <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let element" [attr.colspan]="colonnesTableauEmploye.length">
+                <div class="example-element-detail"
+                    [@detailExpand]="element == contenu_developper ? 'expanded' : 'collapsed'">
+                     
+                    
+                   
+
+                </div>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="colonnesTableauEmploye">
+
+        </tr>
+        <tr mat-row *matRowDef="let element; columns: colonnesTableauEmploye;" class="example-element-row"
+            [class.example-expanded-row]="contenu_developper === element"
+            (click)="contenu_developper = contenu_developper === element ? null : element">
+        </tr>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row">
+
+        </tr>  
+    </table>
+
+    
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons>
+    </mat-paginator>
+</div>
+<div class="align-self-center mx-auto">

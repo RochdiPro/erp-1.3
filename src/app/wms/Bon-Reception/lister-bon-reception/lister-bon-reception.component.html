@@ -1,0 +1,78 @@
+<div class="position-relative custom-control">
+    <section>
+        <mat-form-field class="custom-width" [formGroup]="form">
+            <mat-label>ID</mat-label>
+            <input matInput placeholder="ID" formControlName="id" (keyup)="filtre()" id="id">
+            <i matSuffix class="fa fa-filter" aria-hidden="true"></i>
+        </mat-form-field>
+
+        <mat-form-field class="custom-width" [formGroup]="form" style="margin-left: 1%;">
+            <mat-label>Responsable</mat-label>
+            <input matInput placeholder="Responsable" formControlName="responsable" (keyup)="filtre()" id="responsable">
+            <i matSuffix class="fa fa-filter" aria-hidden="true"></i>
+        </mat-form-field>
+        <mat-form-field class="custom-width" [formGroup]="form">
+            <mat-label>Etat</mat-label>
+            <input matInput placeholder="etat" formControlName="etat" (keyup)="filtre()" id="etat">
+            <i matSuffix class="fa fa-filter" aria-hidden="true"></i>
+        </mat-form-field>
+        <mat-form-field class="custom-width" [formGroup]="form" style="margin-left: 1%;">
+            <mat-label>Ancien Type</mat-label>
+            <input matInput placeholder="type_be" formControlName="type_be" (keyup)="filtre()" id="type_be">
+            <i matSuffix class="fa fa-filter" aria-hidden="true"></i>
+        </mat-form-field>
+    </section>
+</div>
+
+<div class="mat-elevation-z8">
+    <mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="modifier">
+            <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="" style="text-align: center;">
+                <a> <i class="pe-7s-pen"(click)="Modifier_Bon(element.id)"       title="Modifier "></i></a>
+            </mat-cell>
+        </ng-container>
+
+        <!--Colonne id -->
+        <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="id"> {{element.id}} </mat-cell>
+        </ng-container>
+        <!--Colonne responsable -->
+        <ng-container matColumnDef="responsable">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Responsable </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="responsable"> {{element.responsable}} </mat-cell>
+        </ng-container>
+        <!--Colonne etat -->
+        <ng-container matColumnDef="etat">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Etat </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="etat"> {{element.etat}} </mat-cell>
+        </ng-container>
+        <!--Colonne Ancien Type -->
+        <ng-container matColumnDef="type_Be">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Ancien Type </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="type_Be"> {{element.type_Be}} </mat-cell>
+        </ng-container>
+        <!--Colonne Ancien ID -->
+        <ng-container matColumnDef="id_Be">
+            <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header> Ancien ID </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="id_Be"> {{element.id_Be}} </mat-cell>
+        </ng-container>
+
+        <!--Colonne supprimer -->
+        <ng-container matColumnDef="supprimer">
+            <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="" style="text-align: center;">
+                <i class="pe-7s-look btn-b" title="Voir PDF" (click)="pdf(element.id)"></i>                
+                <i  style="margin-left: 20px;" class="pe-7s-trash btn-r" title="Supprimer Le Bon" (click)="supprimer(element.id)"></i>
+                <i  style="margin-left: 20px;"class="pe-7s-cloud-download btn-b" (click)="telecharger(element.id)" title="Télécharger PDF"></i>
+            </mat-cell>
+        </ng-container>
+
+        
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>

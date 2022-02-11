@@ -1,0 +1,50 @@
+ 
+<div class="container">
+    <div mat-dialog-content>
+        <h1 class="col-xs-8 text-center" mat-dialog-title>Type : N_Lot</h1>
+&nbsp;
+&nbsp;
+<div class="container">
+    <div mat-dialog-content>
+        <i class="fas fa-plus"  (click)="add()"></i>
+
+        <table class="table table-striped ">
+            <thead>
+                <tr>
+                    <th>Numéro lot</th>
+                    <th>Quantite</th>
+                    <th>Date Fabrication</th>
+                    <th>Date Validité</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tbody *ngFor="let qte of this.ligne_table.detail;let i = index;">
+                <tr>                     
+                    <td>
+                        <input type="text" placeholder="N°Lot" value="{{this.ligne_table.detail[i].n_Lot}}" (keyup)="savenlot(i,$event )" />
+                    </td>
+                    <td> 
+                        <input type="text" placeholder="Qte" value="{{this.ligne_table.detail[i].qte}}" (keyup)="savenqte(i,$event)" />
+                    </td>                   
+                    <td>
+  
+                        <input  type="date" size="10px" width="50px" placeholder="Date de fabrication" value="{{this.ligne_table.detail[i].date_fabrication}}" placeholder="Qte"  (change)="savendatef(i,$event )"/>
+                    </td>
+                    <td>
+                         
+                        <input type="date" width="50px" placeholder="Date de validité" value="{{this.ligne_table.detail[i].date_validite}}" (change)="savendatev(i,$event )"/>
+                    </td>
+                    <td>
+                        <i class="fas fa-trash-alt"  (click)="supp(i)"></i>
+                    </td>
+                  
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button class="btn btn-default " (click)="fermerDialogue()">Fermer</button>
+    <input type="file" class="file-input"  (change)="onFileSelected($event)" #fileUpload>
+    <button mat-button class="btn btn-primary " (click)="valide()" >Valider</button>
+</div>

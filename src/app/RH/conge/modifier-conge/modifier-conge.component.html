@@ -1,0 +1,97 @@
+<mat-vertical-stepper [linear]="passage_etape" #stepperClient>
+    <mat-step [stepControl]="Informations_Generales_Form">
+        <form [formGroup]="Informations_Generales_Form">
+
+            <ng-template matStepLabel>Informations Congé</ng-template>
+            <div class="row">
+
+
+                <div class="col-md-4 mb-4">
+                    <mat-form-field>
+
+                        <mat-label for="Type"> Type Congé </mat-label>
+                        <mat-select   formControlName="Type" id="Type" name="Type" placeholder="Type" [(ngModel)]=Data.type required>
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let t of  types" [value]="t.nom">
+                                {{t.nom}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="Informations_Generales_Form.get('Type').invalid">
+                            {{MessageErreurType()}}</mat-error>
+                    </mat-form-field>
+                </div>
+                
+                <div class="col-md-4 mb-4">
+
+                    <mat-form-field>
+                        <mat-label>Raison</mat-label>
+                        <input [(ngModel)]=Data.raison  type="text" matInput formControlName="Raison"   required>
+                        <mat-error *ngIf="Informations_Generales_Form.get('Raison').invalid" >
+                            {{MessageErreurRaison()}}</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <mat-form-field>
+                        <mat-label> Pièce jointe </mat-label>
+                        <ngx-mat-file-input matInput id="Doc" name="Doc" formControlName="Doc"
+                            (change)="choixImage()" placeholder="Sélectionner image">
+                        </ngx-mat-file-input>
+                    </mat-form-field>
+                </div>
+                </div>
+
+                <div class="row">                      
+                    <div class="col-md-4 mb-4">
+                        <mat-form-field>
+    
+                            <mat-label for="Nb_jour"> Nombre des Jours </mat-label>
+                            <input  [(ngModel)]=Data.nb_Jours  type="number" matInput formControlName="Nb_jour" id="Nb_jour"
+                                name="Nb_jour" required>
+                            <mat-error *ngIf="Informations_Generales_Form.get('Nb_jour').invalid">
+                                {{MessageErreurNb_jour()}}</mat-error>
+    
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4 mb-4">
+    
+                        <mat-form-field>
+                             
+                        <mat-label for="Date_debut"> Date Debut </mat-label>
+                        <input  [ngModel]="Date_d"  matInput formControlName="Date_debut" id="Date_debut"[matDatepicker]="picker2"
+                         name="Date_debut"    >
+                         <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>   
+                        </mat-form-field>    
+                    </div>                      
+                    
+                    <div class="col-md-4 mb-4">
+                        <mat-form-field>                      
+                        <mat-label for="Date_fin"> Date Fin</mat-label>
+                        <input [ngModel]="Date_f"  matInput formControlName="Date_fin" id="Date_fin"[matDatepicker]="picker3"
+                         name="Date_fin"  > 
+                         <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                        <mat-datepicker #picker3></mat-datepicker>   
+                           
+                        </mat-form-field>
+                    </div>
+                </div>
+              
+                <div class="row">    
+                    <mat-form-field class="full-width">
+                        <mat-label>Description</mat-label>
+                        <textarea [(ngModel)]=Data.description  matInput formControlName="Description" id="Description" name="Description"
+                            placeholder="Description"></textarea>
+                    </mat-form-field>
+                </div>        
+                <div>
+                    <div>
+                        <button mat-button class="btn-primary" (click)="ModifierConge()"
+                            style=" margin-left: 150px;">Valider</button>
+                    </div>
+                </div>
+        </form>
+    </mat-step>
+
+   
+
+    
+</mat-vertical-stepper>

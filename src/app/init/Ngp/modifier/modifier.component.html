@@ -1,0 +1,48 @@
+  
+   <form [formGroup]="Informations">
+       <div class="row">
+         <div class="col-md-3 mb-3"></div>
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label>Taxe </mat-label>
+               <mat-select formControlName="Taxe">
+                  <mat-option value=""></mat-option>
+                  <mat-option *ngFor="let d of l_taxe" [value]="d.nom">{{d.nom}}</mat-option>
+               </mat-select>              
+            </mat-form-field>
+         </div>
+        
+         <div class="col-md-3 mb-3">
+            <button    class="btn btn-primary" style="margin-top: 20px;" (click)="ajouter_taxe()" > Ajouter</button>
+         </div> 
+      </div>
+      <mat-progress-bar mode="indeterminate" *ngIf='loading'></mat-progress-bar>
+      <div class="row">
+        <div class="col-lg-12">
+            <div class="main-card mb-12 card">
+                <div class="card-body"> 
+                    <div class="table-responsive">
+                        <table class="mb-0 table">
+                            <thead>
+                            <tr>
+                              <th>Taxe</th> <th> </th>                                                           
+                            </tr>
+                            </thead>
+                            <tbody>
+                           <tr *ngFor = "let o of table ;let i = index;" >
+                              <td>{{o.nom}}</td>     
+                              <td><i class="pe-7s-trash" (click)="sup(i)" title="Supprimer"></i></td>                                 
+                           </tr>                            
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div>
+       </div>
+   </form>
+ 
+ 
+ 

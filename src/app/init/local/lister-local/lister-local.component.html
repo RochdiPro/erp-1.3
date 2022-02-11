@@ -1,0 +1,169 @@
+<div class="row">
+    <div class="col-md-3 mb-3">
+        <select id="filtre_par" class="form-control" #mySelect (change)='onOptionsSelectionner(mySelect.value)'>
+            <option value="">Filtrer par :</option>
+            <option *ngFor="let champ of liste_champs_local; let i=index;" [value]="champ">
+                <span *ngIf="champ  == 'id_local'">Id Local</span>
+                <span *ngIf="champ  == 'categorie_local'">Catégorie Local</span>
+                <span *ngIf="champ  == 'description_local'">Description Local</span>
+                <span *ngIf="champ  == 'hauteur'">Hauteur</span>
+                <span *ngIf="champ  == 'largeur'">Largeur</span>
+                <span *ngIf="champ  == 'profondeur'">Profondeur</span>
+                <span *ngIf="champ  == 'nom_local'">Nom Local</span>
+                <span *ngIf="champ  == 'date_debut'">Date Début Contrat</span>
+                <span *ngIf="champ  == 'date_fin'">Date Fin Contrat</span>
+                <span *ngIf="champ  == 'longitude'">Longitude</span>
+                <span *ngIf="champ  == 'latitude'">Latitude</span>
+                <span *ngIf="champ  == 'nature_contrat'">Nature Contrat</span>
+                <span *ngIf="champ  == 'nature_frais'">Nature Frais</span>
+                <span *ngIf="champ  == 'responsable'">Responsable</span>
+                <span *ngIf="champ  == 'tel'">Tél.Mobile</span>
+                <span *ngIf="champ  == 'adresse'">Adresse</span>
+                <span *ngIf="champ  == 'detail'">Piéce Jointe Contrat</span>
+                <span *ngIf="champ  == 'detail_type'">Type Détail</span>
+                <span *ngIf="champ  == 'date_creation'">Date Création</span>
+                <span *ngIf="champ  == 'email'">Adresse Email</span>
+                <span *ngIf="champ  == 'fax'">Fax</span>
+                <span *ngIf="champ  == 'frais'">Frais</span>
+            </option>
+        </select>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="row">
+            <input class="form-control " type="text" placeholder="Rechercher..." [(ngModel)]="recherche" value=""
+                (keyup)="$event.keyCode == 13 && filtrerLocal()">
+
+
+
+        </div>
+    </div>
+    <i class="fa fa-search icon" style="margin-left: 10px; margin-top: 10px;" (click)="filtrerLocal()"></i>
+</div>
+
+
+
+<div class="position-relative custom-control">
+    <section>
+        <mat-form-field class="custom-width" [formGroup]="form" style="margin-left: 8%; width:10%">
+            <mat-label>ID</mat-label>
+            <input matInput placeholder="ID" formControlName="id_Local" (keyup)="filtre_lo()" id="id">
+            <i matSuffix class="fa fa-filter" aria-hidden="true"></i>
+        </mat-form-field>
+        <mat-form-field class="custom-width" [formGroup]="form" style="margin-left: 1%; width:9%">
+            <mat-label>Nom</mat-label>
+            <input matInput placeholder="Nom" formControlName="nom_Local" (keyup)="filtre_lo()" id="id">
+            <i matSuffix class="fa fa-filter" aria-hidden="true"></i>
+        </mat-form-field>
+        <mat-form-field class="custom-width" [formGroup]="form" style="margin-left: 1%; width:9%">
+            <mat-label>Categorie local</mat-label>
+            <input matInput placeholder="Categorie local" formControlName="categorie_Local" (keyup)="filtre_lo()"
+                id="id">
+            <i matSuffix class="fa fa-filter" aria-hidden="true"></i>
+        </mat-form-field>
+        <mat-form-field class="custom-width" [formGroup]="form" style="margin-left: 1%; width:9%">
+            <mat-label>Adresse</mat-label>
+            <input matInput placeholder="adresse" formControlName="adresse" (keyup)="filtre_lo()" id="type_be">
+            <i matSuffix class="fa fa-filter" aria-hidden="true"></i>
+        </mat-form-field>
+        <mat-form-field class="custom-width" [formGroup]="form" style="margin-left: 1%; width:9%">
+            <mat-label>Responsable</mat-label>
+            <input matInput placeholder="Tel" formControlName="responsable" (keyup)="filtre_lo()" id="type_be">
+            <i matSuffix class="fa fa-filter" aria-hidden="true"></i>
+        </mat-form-field>
+        <mat-form-field class="custom-width" [formGroup]="form" style="margin-left: 1%; width:9%">
+            <mat-label>Tel</mat-label>
+            <input matInput placeholder="+216" formControlName="tel" (keyup)="filtre_lo()" id="responsable">
+            <i matSuffix class="fa fa-filter" aria-hidden="true"></i>
+        </mat-form-field>
+        <mat-form-field class="custom-width" [formGroup]="form" style="margin-left: 1%; width:9%">
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Email" formControlName="email" (keyup)="filtre_lo()" id="etat">
+            <i matSuffix class="fa fa-filter" aria-hidden="true"></i>
+        </mat-form-field>
+
+        <mat-form-field class="custom-width" [formGroup]="form" style="margin-left: 1%; width:9%">
+            <mat-label>Nature Contrat</mat-label>
+            <input matInput placeholder="Tel" formControlName="nature_Contrat" (keyup)="filtre_lo()" id="type_be">
+            <i matSuffix class="fa fa-filter" aria-hidden="true"></i>
+        </mat-form-field>
+
+    </section>
+</div>
+
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+        <!--Colonne id -->
+        <ng-container matColumnDef="editer">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="ID">
+                <i class="pe-7s-pen" title="Modifier local"
+                    routerLink="/Menu/Menu-init/Menu-local/Modifier-local/{{element.id_Local}}">
+                </i>
+            </mat-cell>
+        </ng-container>
+
+        <!--Colonne id -->
+        <ng-container matColumnDef="id_Local">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="Id"> {{element.id_Local}}</mat-cell>
+        </ng-container>
+        <!--Colonne responsable -->
+        <ng-container matColumnDef="nom_Local">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Nom Local </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="Nom"> {{element.nom_Local}}</mat-cell>
+        </ng-container>
+
+
+        <!--Colonne Ancien ID -->
+        <ng-container matColumnDef="categorie_Local">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Categorie Local </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="Categorie"> {{element.categorie_Local}} </mat-cell>
+        </ng-container>
+        <!--Colonne Réclamation -->
+        <ng-container matColumnDef="adresse">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Adresse </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="Adresse"> {{element.adresse}} </mat-cell>
+        </ng-container>
+
+        <!--Colonne Réclamation -->
+        <ng-container matColumnDef="responsable">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Responsable </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="Responsable"> {{element.responsable}} </mat-cell>
+        </ng-container>
+
+        <!--Colonne email -->
+        <ng-container matColumnDef="email">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="Email"> {{element.email}} </mat-cell>
+        </ng-container>
+        <!--Colonne tel1 -->
+        <ng-container matColumnDef="tel">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Tel </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="Tel"> {{element.tel}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="nature_contrat">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Nature contrat </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="Contrat"> {{element.nature_contrat}} </mat-cell>
+        </ng-container>
+
+
+        <!--Colonne supprimer -->
+        <ng-container matColumnDef="supprimer">
+            <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+            <mat-cell *matCellDef="let element" style="text-align: center;">
+
+                <i class="pe-7s-cloud-download" title="Télécharger PDF" (click)="genererPDF(element.id_Local)"
+                    style="color: darkblue;">
+                </i>
+                <i class="pe-7s-trash" (click)="SupprimerLocal(element.id_Local)" title="Supprimer  "
+                    style="color: red; margin-left: 15px;">
+                </i>
+
+            </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>

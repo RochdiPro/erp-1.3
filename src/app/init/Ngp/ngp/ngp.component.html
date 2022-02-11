@@ -1,0 +1,92 @@
+<h1 class="col-xs-8 text-center">Edit NGP</h1>
+<mat-horizontal-stepper [linear]="Lineaire" #stepperLocal>
+<mat-step [stepControl]="Informations_Generales">
+   <form [formGroup]="Informations_Generales">
+      <ng-template matStepLabel> sélectionner NGP</ng-template>
+      <h6>sélectionner </h6>
+      <div class="row">
+         <div class="col-md-12 mb-12">
+            <mat-form-field>
+               <mat-label>NGP </mat-label>
+               <mat-select formControlName="NGP">
+                  <mat-option value=""></mat-option>
+                  <mat-option *ngFor="let d of l_NGP" [value]="d.nom">{{d.nom}}</mat-option>
+               </mat-select>
+               <mat-error *ngIf="Informations_Generales.get('NGP').invalid">{{MessageErreur()}}
+               </mat-error>
+            </mat-form-field>
+         </div>
+      </div>
+      <h6>Ajouter NGP </h6>
+      <div class="row">
+         <div class="col-md-3 mb-3">
+            <mat-form-field  >
+               <mat-label>Nom </mat-label>
+               <input type="text" id="Nom" name="Nom"  
+                  [formControl]="Informations_Generales.get('Nom')" matInput placeholder="Nom "  >
+            </mat-form-field>
+         </div>
+         <div class="col-md-3 mb-3">
+            <button    class="btn btn-success" style="margin-top: 20px;" (click)="ajouter_Ngp()">   Ajouter</button>
+         </div>
+      </div>
+      <div>
+         <button mat-button matStepperNext class="btn btn-primary" style="margin-top: 20px;" (click)="lister()" >
+         Suivant</button>
+      </div>
+   </form>
+</mat-step>
+<mat-step [stepControl]="Informations" label="sélectionner Taxe">
+   <form [formGroup]="Informations">
+      <h6>Select Taxe </h6>
+      <div class="row">
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label>Taxe </mat-label>
+               <mat-select formControlName="Taxe">
+                  <mat-option value=""></mat-option>
+                  <mat-option *ngFor="let d of l_taxe" [value]="d.nom">{{d.nom}}</mat-option>
+               </mat-select>
+              
+            </mat-form-field>
+         </div>
+        
+         <div class="col-md-3 mb-3">
+            <button    class="btn btn-success" style="margin-top: 20px;" (click)="ajouter_taxe()" >   Ajouter</button>
+         </div>
+         <div class="col-md-3 mb-3">
+            <button    class="btn btn-danger" style="margin-top: 20px;" (click)="Supprimer_taxe()" >   Supprimer</button>
+         </div>
+         
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+            <div class="main-card mb-12 card">
+                <div class="card-body"> 
+                    <div class="table-responsive">
+                        <table class="mb-0 table">
+                            <thead>
+                            <tr>
+                                <th>Taxe</th>                                                           
+                            </tr>
+                            </thead>
+                            <tbody>
+                           <tr *ngFor = "let column of l_taxe_ngp" >
+                                <td>{{column }}</td>                                 
+                           </tr>
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div>
+         <button mat-button matStepperPrevious class="btn btn-default" style="margin-top: 20px;">Précédent</button>
+         <button mat-button matStepperNext class="btn btn-primary" style="margin-top: 20px;">Suivant</button>
+      </div>
+   </form>
+</mat-step>
+ 
+</mat-horizontal-stepper>

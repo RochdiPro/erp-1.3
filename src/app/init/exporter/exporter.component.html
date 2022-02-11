@@ -1,0 +1,337 @@
+<div class="app-page-title">
+    <div class="page-title-wrapper">
+        <div class="page-title-heading">
+            <div class="page-title-icon">
+                <i class="pe-7s-graph text-success">
+                </i>
+            </div>
+            <h5>Exporter / Importer données</h5>
+        </div>
+    </div>
+</div>
+<div class="tab-content">
+    
+        <div class="main-card mb-3 card">
+            <div class="card-body">
+                <!--   debut de code  -->
+                <h5> choisissez une donnée pour l'importer ou l'exporter</h5>
+               
+                    <div class="row">
+
+                        <div class="col-md-3 mb-3">
+                            <mat-label for="liste_donnee">Liste de données</mat-label>
+                            <mat-select id="Liste_donnee" name="Liste_donnee" (selectionChange)="ChoixDonnees($event)">
+                                <mat-option *ngFor="let donnee of Liste_donnee" [value]="donnee">{{donnee}}
+                                </mat-option>
+                            </mat-select>
+                        </div>
+                      
+                        <div class="col-md-3 mb-3">
+                            <input type="button" class="btn btn-primary" (click)="ImporterDonnees()"
+                                value="Importer données">
+                            <br>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <input type="button" class="btn btn-primary" (click)="ExporterDonnees()"
+                                value="Exporter données">
+                            <br>
+                        </div>
+                    </div>
+                    <mat-progress-bar mode="indeterminate" *ngIf='chargement'></mat-progress-bar>
+
+                    <div *ngIf="nom_donnee=='Fournisseurs'" class="example-container mat-elevation-z8">
+            
+
+                        <mat-table #table [dataSource]="exporterImporterData" matSort>
+
+                            <!-- cocher -->
+                            <ng-container matColumnDef="Cocher">
+                                <mat-header-cell *matHeaderCellDef>
+                                    <mat-checkbox  (change)="$event ? masterToggle() : null"
+                                        [checked]="selection.hasValue() && ToutSelectionner()"
+                                        [indeterminate]="selection.hasValue() && !ToutSelectionner()">  
+                                    </mat-checkbox>
+                                </mat-header-cell>
+                              
+                                <mat-cell *matCellDef="let element">
+                                    
+                                         <mat-checkbox   (click)="$event.stopPropagation()" 
+                                        (change)="$event ? selection.toggle(element) : null"
+                                        [checked]="selection.isSelected(element)" [aria-label]="checkboxLabel(element)"> 
+                                    </mat-checkbox> 
+                                
+                                </mat-cell>
+                                <mat-footer-cell *matFooterCellDef colspan=4  >
+                                    <app-importer-donnees-fournisseur (importerDonnees)='importerDonnees($event)'>
+                                    </app-importer-donnees-fournisseur>
+                                </mat-footer-cell>
+
+                            </ng-container>
+ 
+                         
+                            <!-- Code -->
+                            <ng-container matColumnDef="id_Fr">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                    Code
+                                </mat-header-cell>
+
+                                <mat-cell *matCellDef="let element"> {{element.id_Fr}} </mat-cell>
+
+                            </ng-container>
+
+
+                            <!-- Nom du fournisseur -->
+                            <ng-container matColumnDef="nom_Fournisseur">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>
+
+                                    Nom
+
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> {{element.nom_Fournisseur}} </mat-cell>
+
+                            </ng-container>
+
+                            <!-- exporter en xml -->
+                            <ng-container matColumnDef="Exporter">
+                                <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+                                <mat-cell *matCellDef="let element">
+                                    <i class="pe-7s-cloud-download" title="Exporter en xml"
+                                        (click)="exporterFournisseur(element.id_Fr)" style="color: darkblue;">
+                                    </i>
+                                </mat-cell>
+                            </ng-container>
+                        
+
+                            <mat-header-row *matHeaderRowDef="colonnesFournisseur"></mat-header-row>
+
+                            <mat-row *matRowDef="let row; columns: colonnesFournisseur;" matRipple class="element-row"
+                                [cdkDetailRow]="row" [cdkDetailRowTpl]="tpl" (click)="selection.toggle(row)">
+                            </mat-row>
+                            <mat-footer-row *matFooterRowDef="['Cocher']"></mat-footer-row>
+
+                        </mat-table>
+
+
+                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                    </div>
+
+
+                    <div *ngIf="nom_donnee=='Clients'" class="example-container mat-elevation-z8">
+            
+
+                        <mat-table #table [dataSource]="exporterImporterData" matSort>
+
+                            <!-- cocher -->
+                            <ng-container matColumnDef="Cocher">
+                                <mat-header-cell *matHeaderCellDef>
+                                    <mat-checkbox color="primary" (change)="$event ? masterToggle() : null"
+                                        [checked]="selection.hasValue() && ToutSelectionner()"
+                                        [indeterminate]="selection.hasValue() && !ToutSelectionner()">
+                                    </mat-checkbox>
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let element">
+                                    <mat-checkbox (click)="$event.stopPropagation()"
+                                    color="primary"    (change)="$event ? selection.toggle(element) : null"
+                                        [checked]="selection.isSelected(element)" [aria-label]="checkboxLabel(element)">
+                                    </mat-checkbox>
+                                </mat-cell>
+                                <mat-footer-cell *matFooterCellDef colspan=4 style="padding: 0">
+                                    <app-importer-donnees-client (importerDonnees)='importerDonnees($event)'>
+                                    </app-importer-donnees-client>
+                                </mat-footer-cell>
+
+                            </ng-container>
+
+                            <!-- Code -->
+                            <ng-container matColumnDef="id_Clt">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                    Code
+                                </mat-header-cell>
+
+                                <mat-cell *matCellDef="let element"> {{element.id_Clt}} </mat-cell>
+
+                            </ng-container>
+
+                            <!-- Nom du client -->
+                            <ng-container matColumnDef="nom_Client">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>
+
+                                    Nom
+
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> {{element.nom_Client}} </mat-cell>
+
+                            </ng-container>
+
+                            <!-- exporter en xml -->
+                            <ng-container matColumnDef="Exporter">
+                                <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+                                <mat-cell *matCellDef="let element">
+                                    <i class="pe-7s-cloud-download" title="Exporter en xml"
+                                        (click)="exporterClient(element.id_Clt)" style="color: darkblue;">
+                                    </i>
+                                </mat-cell>
+                            </ng-container>
+                        
+
+                            <mat-header-row *matHeaderRowDef="colonnesClients"></mat-header-row>
+
+                            <mat-row *matRowDef="let row; columns: colonnesClients;" matRipple class="element-row"
+                                [cdkDetailRow]="row" [cdkDetailRowTpl]="tpl" (click)="selection.toggle(row)">
+                            </mat-row>
+                            <mat-footer-row *matFooterRowDef="['Cocher']"></mat-footer-row>
+
+                        </mat-table>
+
+
+                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                    </div>
+                    <div *ngIf="nom_donnee=='Employes'" class="example-container mat-elevation-z8">
+            
+
+                        <mat-table #table [dataSource]="exporterImporterData" matSort>
+
+                            <!-- cocher -->
+                            <ng-container matColumnDef="Cocher">
+                                <mat-header-cell *matHeaderCellDef>
+                                    <mat-checkbox color="primary" (change)="$event ? masterToggle() : null"
+                                        [checked]="selection.hasValue() && ToutSelectionner()"
+                                        [indeterminate]="selection.hasValue() && !ToutSelectionner()">
+                                    </mat-checkbox>
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let element">
+                                    <mat-checkbox (click)="$event.stopPropagation()"
+                                    color="primary"    (change)="$event ? selection.toggle(element) : null"
+                                        [checked]="selection.isSelected(element)" [aria-label]="checkboxLabel(element)">
+                                    </mat-checkbox>
+                                </mat-cell>
+                                <mat-footer-cell *matFooterCellDef colspan=4 style="padding: 0">
+                                    <app-importer-donnees-employe (importerDonnees)='importerDonnees($event)'>
+                                    </app-importer-donnees-employe>
+                                </mat-footer-cell>
+
+                            </ng-container>
+
+
+
+                            <!-- Code -->
+                            <ng-container matColumnDef="id_Employe">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                    id_Employe
+                                </mat-header-cell>
+
+                                <mat-cell *matCellDef="let element"> {{element.id_Employe}} </mat-cell>
+
+                            </ng-container>
+
+                            <!-- Nom du Employe -->
+                            <ng-container matColumnDef="nom_Employe">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>
+
+                                    nom_Employe
+
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> {{element.nom}} </mat-cell>
+
+                            </ng-container>
+
+                            <!-- exporter en xml -->
+                            <ng-container matColumnDef="Exporter">
+                                <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+                                <mat-cell *matCellDef="let element">
+                                    <i class="pe-7s-cloud-download" title="Exporter en xml"
+                                        (click)="exporterEmploye(element.id_Employe)" style="color: darkblue;">
+                                    </i>
+                                </mat-cell>
+                            </ng-container>
+                        
+
+                            <mat-header-row *matHeaderRowDef="colonnesEmploye"></mat-header-row>
+
+                            <mat-row *matRowDef="let row; columns: colonnesEmploye;" matRipple class="element-row"
+                                [cdkDetailRow]="row" [cdkDetailRowTpl]="tpl" (click)="selection.toggle(row)">
+                            </mat-row>
+                            <mat-footer-row *matFooterRowDef="['Cocher']"></mat-footer-row>
+
+                        </mat-table>
+
+
+                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                    </div>
+
+
+                    <div *ngIf="nom_donnee=='Produits'" class="example-container mat-elevation-z8">
+            
+
+                        <mat-table #table [dataSource]="exporterImporterData" matSort>
+
+                            <!-- cocher -->
+                            <ng-container matColumnDef="Cocher">
+                                <mat-header-cell *matHeaderCellDef>
+                                    <mat-checkbox color="primary" (change)="$event ? masterToggle() : null"
+                                        [checked]="selection.hasValue() && ToutSelectionner()"
+                                        [indeterminate]="selection.hasValue() && !ToutSelectionner()">
+                                    </mat-checkbox>
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let element">
+                                    <mat-checkbox color="primary" (click)="$event.stopPropagation()"
+                                        (change)="$event ? selection.toggle(element) : null"
+                                        [checked]="selection.isSelected(element)" [aria-label]="checkboxLabel(element)">
+                                    </mat-checkbox>
+                                </mat-cell>
+                                <mat-footer-cell *matFooterCellDef colspan=4 style="padding: 0">
+                                    <app-importer-donnees-produit (importerDonnees)='importerDonnees($event)'>
+                                    </app-importer-donnees-produit>
+                                </mat-footer-cell>
+                            </ng-container>
+
+                            <!-- Code -->
+                            <ng-container matColumnDef="id_Produit">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                    Code
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> {{element.id_Produit}} </mat-cell>
+                            </ng-container>
+
+                            <!-- Nom du produit -->
+                            <ng-container matColumnDef="nom_Produit">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                    Nom
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> {{element.nom_Produit}} </mat-cell>
+                            </ng-container>
+
+                            <!-- exporter en xml -->
+                            <ng-container matColumnDef="Exporter">
+                                <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+                                <mat-cell *matCellDef="let element">
+                                    <i class="pe-7s-cloud-download" title="Exporter en xml"
+                                        (click)="exporterFicheProduit(element.id_Produit)" style="color: darkblue;">
+                                    </i>
+                                </mat-cell>
+                            </ng-container>
+                        
+
+                            <mat-header-row *matHeaderRowDef="colonnesProduits"></mat-header-row>
+
+                            <mat-row *matRowDef="let row; columns: colonnesProduits;" matRipple class="element-row"
+                                [cdkDetailRow]="row" [cdkDetailRowTpl]="tpl" (click)="selection.toggle(row)">
+                            </mat-row>
+                            <mat-footer-row *matFooterRowDef="['Cocher']"></mat-footer-row>
+
+                        </mat-table>
+
+
+                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                    </div>
+
+
+
+                <div class="align-self-center mx-auto">
+
+
+                    <!--   fin code  -->
+                </div>
+            </div>
+        </div>
+   

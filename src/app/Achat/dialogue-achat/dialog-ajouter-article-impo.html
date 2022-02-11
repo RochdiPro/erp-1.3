@@ -1,0 +1,76 @@
+<div class="container" mat-dialog-content> 
+  <br>
+  <div class="row">
+    <mat-progress-bar mode="indeterminate" *ngIf='loading'></mat-progress-bar>
+    <!-- Lignes d'article  -->
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Id produit </th>
+          <th>NGP</th>
+          <th>Nom produit</th>
+          <th>Prix_U_DV</th>
+          <th>Quantite</th> 
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td></td>
+          <td>
+            <mat-form-field class="custom-width">
+              <mat-label>Filtrer par ID</mat-label>
+              <input matInput [(ngModel)]="id" placeholder="Filtrer par ID" id="id" (keyup)="filtre()">
+              <i matSuffix class="fa fa-filter" aria-hidden="true"></i>
+            </mat-form-field>
+          </td>
+         
+          <td>
+            <mat-form-field class="custom-width">
+              <mat-label>Filtrer par Nom</mat-label>
+              <input matInput [(ngModel)]="nom" placeholder="Filtrer par Nom" id="nom" (keyup)="filtre()">
+              <i matSuffix class="fa fa-filter" aria-hidden="true"></i>
+            </mat-form-field>
+          </td>
+         
+         <td></td>
+          
+          <td></td>
+          <td></td>
+        </tr>
+        <tr *ngFor="let item of prouduits ">
+          <td><input type="checkbox" name="item" (change)="checkCheckBoxvalue($event,item)" /></td>
+          <td>
+            <input [ngModel]="item.id_Produit" class="form-control" type="text" name="{{item.id_Produit}}" disabled />
+          </td>
+          <td>
+            <mat-form-field>
+              <mat-label>NGP</mat-label>
+              <mat-select  [(ngModel)]="item.ngp"     >            
+                <mat-option [value]="" > </mat-option>        
+              <mat-option *ngFor="let ngp of Lngp" [value]="ngp.nom"  >
+              {{ngp.nom}}</mat-option>
+              </mat-select>                  
+           </mat-form-field>
+          </td>
+          <td>
+            <input [ngModel]="item.nom_Produit" [ngModelOptions]="{standalone: true}" class="form-control" type="text"
+              name="{{item.nom_Produit}}" disabled />
+          </td>
+          <td>
+            <input [ngModel]="item.prix" [ngModelOptions]="{standalone: true}" class="form-control" type="text"
+              (change)="changeprix(item,$event )" size="1" />
+          </td>
+          <td>
+            <input [ngModel]="item.qte" [ngModelOptions]="{standalone: true}" class="form-control" type="text"
+              (change)="changerqte(item,$event )" size="1" />
+          </td>
+          
+        </tr>
+      </tbody>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div> 
+  <br>
+</div>
+<button class="pull-right btn btn-primary" (click)="sendProd()"><i class="fas fa-plus"></i> Ajouter</button>

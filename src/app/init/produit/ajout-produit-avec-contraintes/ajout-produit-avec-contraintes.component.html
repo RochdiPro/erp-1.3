@@ -1,0 +1,606 @@
+<h5 class="card-title">Ajouter Produit</h5>
+<div *ngIf="contrainteData">
+    <mat-vertical-stepper [linear]="isLinear" #stepperProduit>
+        <mat-step [stepControl]="Informations_Generales_Form">
+            <form [formGroup]="Informations_Generales_Form">
+
+                <ng-template matStepLabel>Informations Générales</ng-template>
+
+
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+
+                        <mat-form-field>
+
+                            <mat-label for="Nom_Produit"> Nom du Produit </mat-label>
+                            <input type="text" matInput formControlName="Nom_Produit" id="Nom_Produit"
+                                name="Nom_Produit" required>
+                            <mat-error *ngIf="Informations_Generales_Form.get('Nom_Produit').invalid">
+                                {{MessageErreurNomProduit()}}</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div *ngIf="contrainteData.marque" class="col-md-3 mb-3">
+
+                        <mat-form-field>
+
+                            <mat-label for="Marque"> Marque </mat-label>
+                            <input type="text" matInput formControlName="Marque" id="Nom_Marque" name="Marque" required>
+                            <mat-error *ngIf="Informations_Generales_Form.get('Marque').invalid">
+                                {{MessageErreurMarque()}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div *ngIf="contrainteData.unite" class="col-md-3 mb-3">
+
+                        <mat-form-field>
+
+                            <mat-label for="Unite"> Unité </mat-label>
+                            <mat-select formControlName="Unite" id="Unite" name="Unite" [(value)]="Unite" required>
+                                <mat-option *ngFor="let unite of categorie_unite" [value]="unite.nom">{{unite.nom}}
+                                </mat-option>
+                            </mat-select>
+
+                            <mat-error *ngIf="Informations_Generales_Form.get('Unite').invalid">
+                                {{MessageErreurUnite()}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div *ngIf="contrainteData.valeur_Unite" class="col-md-3 mb-3">
+
+                        <mat-form-field>
+
+                            <mat-label for="Valeur_Unite"> Valeur Unite </mat-label>
+                            <input type="number" matInput formControlName="Valeur_Unite" id="Valeur_Unite"
+                                name="Valeur_Unite" required>
+                            <mat-error *ngIf="Informations_Generales_Form.get('Valeur_Unite').invalid">
+                                {{MessageErreurValeurUnite()}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div *ngIf="contrainteData.type1" class="col-md-3 mb-3">
+
+                        <mat-form-field>
+
+                            <mat-label for="Type1"> Type du produit </mat-label>
+                            <mat-select formControlName="Type1" id="Type1" name="Type1" placeholder="Type 1"
+                                (selectionChange)="ChoixType1($event)" required>
+                                <mat-option *ngFor="let type of categorie_type1" [value]="type.nom">{{type.nom}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="Informations_Generales_Form.get('Type1').invalid">
+                                {{MessageErreurType1()}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div *ngIf="contrainteData.type2" class="col-md-3 mb-3">
+
+                        <mat-form-field>
+
+                            <mat-label for="Type2"> Sous type du produit </mat-label>
+                            <mat-select formControlName="Type2" id="Type2" name="Type2" placeholder="Type 2"
+                                (selectionChange)="ChoixType2($event)" required>
+
+                                <mat-option *ngFor="let type of categorie_type2" [value]="type.nom">{{type.nom}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="Informations_Generales_Form.get('Type2').invalid">
+                                {{MessageErreurType2()}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div *ngIf="contrainteData.famille" class="col-md-3 mb-3">
+
+                        <mat-form-field>
+
+                            <mat-label for="Famille"> Famille du produit </mat-label>
+                            <mat-select formControlName="Famille" id="Famille" name="Famille" placeholder="Famille"
+                                (selectionChange)="ChoixType3($event)" required>
+
+                                <mat-option *ngFor="let type of categorie_famille" [value]="type.nom">{{type.nom}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="Informations_Generales_Form.get('Famille').invalid">
+                                {{MessageErreurFamille()}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div *ngIf="contrainteData.sous_Famille" class="col-md-3 mb-3">
+
+                        <mat-form-field>
+
+                            <mat-label for="Sous_Famille"> Sous Famille du produit </mat-label>
+                            <mat-select formControlName="Sous_Famille" id="Sous_Famille" name="Sous_Famille"
+                                placeholder="Sous_Famille" required>
+
+                                <mat-option *ngFor="let type of categorie_sous_famille" [value]="type.nom">{{type.nom}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="Informations_Generales_Form.get('Sous_Famille').invalid">
+                                {{MessageErreurSous_Famille()}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div *ngIf="contrainteData.code_Barre" class="col-md-3 mb-3">
+
+                        <mat-form-field>
+
+                            <mat-label for="Code_Barre"> Code à Barre </mat-label>
+                            <input type="text" matInput formControlName="Code_Barre" id="Code_Barre" name="Code_Barre"
+                                required>
+                            <mat-error *ngIf="Informations_Generales_Form.get('Code_Barre').invalid">
+                                {{MessageErreurCode_Barre()}}</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div *ngIf="contrainteData.ngp" class="col-md-3 mb-3">
+
+                        <mat-form-field>
+
+                            <mat-label for="Ngp"> Ngp </mat-label>
+                            <mat-select formControlName="Ngp" id="Ngp" name="Ngp" placeholder="Ngp" required>
+
+                                <mat-option *ngFor="let ngp of categorie_ngp" [value]="ngp.nom">{{ngp.nom}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="Informations_Generales_Form.get('Ngp').invalid">
+                                {{MessageErreurNgp()}}</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div *ngIf="contrainteData.fodec" class="col-md-3 mb-3">
+
+                        <mat-form-field>
+
+                            <mat-label for="Fodec"> Fodec </mat-label>
+                            <mat-select formControlName="Fodec" id="Fodec" name="Fodec" placeholder="Fodec"
+                                [(value)]="Fodec" required>
+
+                                <mat-option *ngFor="let fodec of categorie_fodec" [value]="fodec.nom">{{fodec.nom}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="Informations_Generales_Form.get('Fodec').invalid">
+                                {{MessageErreurFodec()}}</mat-error>
+
+                        </mat-form-field>
+                    </div>
+                    <div *ngIf="contrainteData.tva" class="col-md-3 mb-3">
+                        <mat-form-field>
+
+                            <mat-label for="Tva"> Tva </mat-label>
+
+                            <mat-select formControlName="Tva" id="Tva" name="Tva" placeholder="Tva" required>
+
+                                <mat-option *ngFor="let tva of categorie_tva" [value]="tva.valeur">{{tva.valeur}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="Informations_Generales_Form.get('Tva').invalid">
+                                {{MessageErreurTva()}}</mat-error>
+                        </mat-form-field>
+
+                    </div>
+
+
+                </div>
+                <div class="row" *ngIf="contrainteData.caracteristique_Technique">
+
+                    <mat-form-field class="full-width">
+
+                        <mat-label for="Caracteristique_Technique"> Caracteristiques Techniques </mat-label>
+                        <input type="text" matInput formControlName="Caracteristique_Technique"
+                            id="Caracteristique_Technique" name="Caracteristique_Technique" required>
+                        <mat-error *ngIf="Informations_Generales_Form.get('Caracteristique_Technique').invalid">
+                            {{MessageErreurCaracteristique_Technique()}}</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div>
+                    <button mat-button matStepperNext class="btn-primary" style="margin-top: 20px;">Suivant</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="Specifications_Form">
+            <form [formGroup]="Specifications_Form" enctype="multipart/form-data">
+
+                <ng-template matStepLabel>Specifications</ng-template>
+                <div class="row">
+                    <div *ngIf="!contrainteData.pays  && !contrainteData.ville && !contrainteData.region
+                    && !contrainteData.source && !contrainteData.saison && !contrainteData.role && !contrainteData.couleur 
+                    &&  !contrainteData.taille   &&  !contrainteData.n_Imei  &&  !contrainteData.n_Imei2
+                    &&  !contrainteData.n_Serie  &&  !contrainteData.N_Lot  &&  !contrainteData.date_Fabrication
+                    &&  !contrainteData.date_Validite  &&  !contrainteData.temperature_Max  &&  !contrainteData.temperature_Min
+                    &&  !contrainteData.rfid   &&  !contrainteData.src_Img &&  !contrainteData.certificat">
+                        <h3>La contrainte choisie ne vous permet pas de saisir des spécifications du produit!</h3>
+                    </div>
+                    <div *ngIf="contrainteData.pays" class="col-md-3 mb-3">
+                        <mat-form-field>
+
+                            <mat-label for="Pays"> Pays </mat-label>
+
+                            <mat-select formControlName="Pays" id="Pays" name="Pays" placeholder="Pays"
+                                (selectionChange)="ChoixPays($event)" required>
+
+                                <mat-option *ngFor="let pays of categorie_pays" [value]="pays.nom">{{pays.nom}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="Specifications_Form.get('Pays').invalid">
+                                {{MessageErreurPays()}}</mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <div *ngIf="contrainteData.ville" class="col-md-3 mb-3">
+                        <mat-form-field>
+
+                            <mat-label for="Ville"> Ville </mat-label>
+
+                            <mat-select formControlName="Ville" id="Ville" name="Ville" placeholder="Ville" required
+                                (selectionChange)="ChoixVille($event)">
+
+                                <mat-option *ngFor="let ville of categorie_ville" [value]="ville.nom">{{ville.nom}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="Specifications_Form.get('Ville').invalid">
+                                {{MessageErreurVille()}}</mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <div *ngIf="contrainteData.region" class="col-md-3 mb-3">
+                        <mat-form-field>
+
+                            <mat-label for="Region"> Region </mat-label>
+
+                            <mat-select formControlName="Region" id="Region" name="Region" placeholder="Region"
+                                required>
+
+                                <mat-option *ngFor="let region of categorie_region" [value]="region.nom">{{region.nom}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="Specifications_Form.get('Region').invalid">
+                                {{MessageErreurRegion()}}</mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <div *ngIf="contrainteData.source" class="col-md-3 mb-3">
+
+                        <mat-form-field>
+
+                            <mat-label for="Source"> Source</mat-label>
+                            <input type="text" matInput formControlName="Source" id="Source" name="Source" required>
+                            <mat-error *ngIf="Specifications_Form.get('Source').invalid">
+                                {{MessageErreurSource()}}</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div *ngIf="contrainteData.saison" class="col-md-3 mb-3">
+                        <mat-form-field>
+
+                            <mat-label for="Saison"> Saison </mat-label>
+
+                            <mat-select formControlName="Saison" id="Saison" name="Saison" required>
+
+                                <mat-option *ngFor="let saison of categorie_saison" [value]="saison">{{saison}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="Specifications_Form.get('Saison').invalid">
+                                {{MessageErreurSaison()}}</mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <div *ngIf="contrainteData.role" class="col-md-3 mb-3">
+                        <mat-form-field>
+
+                            <mat-label for="Role"> Role </mat-label>
+
+                            <input type="text" matInput formControlName="Role" id="Role" name="Role" required>
+                            <mat-error *ngIf="Specifications_Form.get('Role').invalid">
+                                {{MessageErreurRole()}}</mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <div *ngIf="contrainteData.couleur" class="col-md-3 mb-3">
+                        <mat-form-field>
+
+                            <mat-label for="Couleur"> Couleur </mat-label>
+
+                            <input type="text" matInput formControlName="Couleur" id="Couleur" name="Couleur" required>
+                            <mat-error *ngIf="Specifications_Form.get('Couleur').invalid">
+                                {{MessageErreurCouleur()}}</mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <div *ngIf="contrainteData.taille" class="col-md-3 mb-3">
+                        <mat-form-field>
+
+                            <mat-label for="Taille"> Taille </mat-label>
+
+                            <input type="text" matInput formControlName="Taille" id="Taille" name="Taille" required>
+                            <mat-error *ngIf="Specifications_Form.get('Taille').invalid">
+                                {{MessageErreurTaille()}}</mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <div *ngIf="contrainteData.n_Imei" class="col-md-3 mb-3">
+
+                        <mat-checkbox matInput formControlName="N_Imei" color="primary" id="N_Imei" name="N_Imei"
+                            [(ngModel)]="verifier" [disabled]=true style="margin-top:10px">
+                        </mat-checkbox>
+                        <mat-label for="N_Imei"> Numéro Imei </mat-label>
+
+                    </div>
+                    <div *ngIf="contrainteData.n_Imei2" class="col-md-3 mb-3">
+
+                        <mat-checkbox matInput formControlName="N_Imei2" color="primary" id="N_Imei2" name="N_Imei2"
+                            [disabled]=true [(ngModel)]="verifier" style="margin-top:10px" required>
+                        </mat-checkbox>
+                        <mat-label for="N_Imei2"> 2ème numéro Imei </mat-label>
+
+
+                    </div>
+                    <div *ngIf="contrainteData.n_Serie" class="col-md-3 mb-3">
+
+                        <mat-checkbox matInput formControlName="N_Serie" color="primary" id="N_Serie" name="N_Serie"
+                            [(ngModel)]="verifier" [disabled]=true style="margin-top:10px" required>
+                        </mat-checkbox>
+                        <mat-label for="N_Serie"> Numéro de serie </mat-label>
+
+
+                    </div>
+                    <div *ngIf="contrainteData.n_Lot" class="col-md-3 mb-3">
+
+                        <mat-checkbox matInput formControlName="N_Lot" color="primary" id="N_Lot" name="N_Lot"
+                            [(ngModel)]="verifier" [disabled]=true style="margin-top:10px">
+                        </mat-checkbox>
+                        <mat-label for="N_Lot"> Numéro du lot </mat-label>
+
+                    </div>
+                    <div *ngIf="contrainteData.date_Fabrication" class="col-md-3 mb-3">
+
+
+                        <mat-checkbox matInput formControlName="Date_Fabrication" color="primary" id="Date_Fabrication"
+                            [disabled]=true [(ngModel)]="verifier" name="Date_Fabrication" required
+                            style="margin-top:10px">
+                        </mat-checkbox>
+                        <mat-label for="Date_Fabrication"> Date Fabrication </mat-label>
+
+                    </div>
+                    <div *ngIf="contrainteData.date_Validite" class="col-md-3 mb-3">
+
+                        <mat-checkbox matInput formControlName="Date_Validite" color="primary" id="Date_Validite"
+                            name="Date_Validite" [(ngModel)]="verifier" [disabled]=true required
+                            style="margin-top:10px">
+                        </mat-checkbox>
+                        <mat-label for="Date_Validite"> Date Validité </mat-label>
+
+
+                    </div>
+                    <div *ngIf="contrainteData.temperature_Max" class="col-md-3 mb-3">
+                        <mat-form-field>
+
+                            <mat-label for="Temperature_Max"> Temperature Maximale </mat-label>
+
+                            <input type="number" matInput formControlName="Temperature_Max" id="Temperature_Max"
+                                name="Temperature_Max" required>
+                            <mat-error *ngIf="Specifications_Form.get('Temperature_Max').invalid">
+                                {{MessageErreurTemperature_Max()}}</mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <div *ngIf="contrainteData.temperature_Min" class="col-md-3 mb-3">
+                        <mat-form-field>
+
+                            <mat-label for="Temperature_Min"> Temperature Minimale </mat-label>
+
+                            <input type="number" matInput formControlName="Temperature_Min" id="Temperature_Min"
+                                name="Temperature_Min" required>
+                            <mat-error *ngIf="Specifications_Form.get('Temperature_Min').invalid">
+                                {{MessageErreurTemperature_Min()}}</mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <div *ngIf="contrainteData.rfid" class="col-md-3 mb-3">
+
+                        <mat-form-field>
+                            <mat-label for="Rfid"> Rfid du produit </mat-label>
+
+                            <ngx-mat-file-input matInput id="Rfid" name="Rfid" formControlName="Rfid" required
+                                placeholder="Selectionner Rfid">
+
+                            </ngx-mat-file-input>
+                            <mat-error *ngIf="Specifications_Form.get('Rfid').invalid">
+                                {{MessageErreurRfid()}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div *ngIf="contrainteData.src_Img" class="col-md-3 mb-3">
+
+                        <mat-form-field>
+                            <mat-label for="Image"> Image du produit </mat-label>
+
+                            <ngx-mat-file-input matInput id="Image" name="Image" formControlName="Image"
+                                (change)="choixImage()" placeholder="Selectionner image" accept="image/png, image/jpeg"
+                                required>
+
+
+                            </ngx-mat-file-input>
+                            <mat-error *ngIf="Specifications_Form.get('Image').invalid">
+                                {{MessageErreurImage()}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div *ngIf="contrainteData.certificat" class="col-md-3 mb-3">
+
+                        <mat-form-field>
+                            <mat-label for="Certificat"> Certificat du produit </mat-label>
+
+                            <ngx-mat-file-input matInput id="Certificat" name="Certificat" formControlName="Certificat"
+                                required placeholder="Selectionner Certificat" [accept]="'.pdf'">
+
+                            </ngx-mat-file-input>
+                            <mat-error *ngIf="Specifications_Form.get('Certificat').invalid">
+                                {{MessageErreurCertificat()}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div>
+                    <button mat-button matStepperPrevious class="btn-primary"
+                        style="margin-top: 20px; margin-right: 20px;">Retour</button>
+                    <button mat-button matStepperNext class="btn-primary">Suivant</button>
+                </div>
+            </form>
+        </mat-step>
+
+        <mat-step [stepControl]="Recapitulation_Form">
+            <form [formGroup]="Recapitulation_Form">
+
+                <ng-template matStepLabel>Récapitulation</ng-template>
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for="Nom_Produit"> Nom du produit :
+                        </label> {{Informations_Generales_Form.get('Nom_Produit').value}}
+                    </div>
+                    <div *ngIf="contrainteData.marque" class="col-md-3 mb-3">
+                        <label for="Marque"> Marque du produit :
+                        </label> {{Informations_Generales_Form.get('Marque').value}}
+                    </div>
+                    <div *ngIf="contrainteData.unite" class="col-md-3 mb-3">
+                        <label for="Unite"> Unité du mesure de produit :
+                        </label> {{Informations_Generales_Form.get('Unite').value}}
+                    </div>
+                    <div *ngIf="contrainteData.valeur_Unite" class="col-md-3 mb-3">
+                        <label for="Valeur_Unite"> Valeur d'unité du produit :
+                        </label> {{Informations_Generales_Form.get('Valeur_Unite').value}}
+                    </div>
+                    <div *ngIf="contrainteData.type1" class="col-md-3 mb-3">
+                        <label for="Type1"> Type du produit :
+                        </label> {{Informations_Generales_Form.get('Type1').value}}
+                    </div>
+                    <div *ngIf="contrainteData.type2" class="col-md-3 mb-3">
+                        <label for="Type2"> Sous-Type du produit :
+                        </label> {{Informations_Generales_Form.get('Type2').value}}
+                    </div>
+                    <div *ngIf="contrainteData.famille" class="col-md-3 mb-3">
+                        <label for="Famille"> Famille du produit :
+                        </label> {{Informations_Generales_Form.get('Famille').value}}
+                    </div>
+                    <div *ngIf="contrainteData.sous_Famille" class="col-md-3 mb-3">
+                        <label for="Sous_Famille"> Sous-Famille du produit :
+                        </label> {{Informations_Generales_Form.get('Sous_Famille').value}}
+                    </div>
+                    <div *ngIf="contrainteData.code_Barre" class="col-md-3 mb-3">
+                        <label for="Code_Barre"> Code à barre du produit :
+                        </label> {{Informations_Generales_Form.get('Code_Barre').value}}
+                    </div>
+                    <div *ngIf="contrainteData.ngp" class="col-md-3 mb-3">
+                        <label for="Ngp"> Ngp :
+                        </label> {{Informations_Generales_Form.get('Ngp').value}}
+                    </div>
+                    <div *ngIf="contrainteData.fodec" class="col-md-3 mb-3">
+                        <label for="Fodec"> Fodec du produit :
+                        </label> {{Informations_Generales_Form.get('Fodec').value}}
+                    </div>
+                    <div *ngIf="contrainteData.tva" class="col-md-3 mb-3">
+                        <label for="Tva"> Tva du produit :
+                        </label> {{Informations_Generales_Form.get('Tva').value}}
+                    </div>
+                    <div *ngIf="contrainteData.caracteristique_Technique" class="col-md-3 mb-3">
+                        <label for="Caracteristique_Technique"> Caracteristique technique du produit :
+                        </label> {{Informations_Generales_Form.get('Caracteristique_Technique').value}}
+                    </div>
+                    <div *ngIf="contrainteData.pays" class="col-md-3 mb-3">
+                        <label for="Pays"> Pays du produit :
+                        </label> {{Specifications_Form.get('Pays').value}}
+                    </div>
+                    <div *ngIf="contrainteData.ville" class="col-md-3 mb-3">
+                        <label for="Ville"> Ville du produit :
+                        </label> {{Specifications_Form.get('Ville').value}}
+                    </div>
+                    <div *ngIf="contrainteData.region" class="col-md-3 mb-3">
+                        <label for="Region"> Région du produit :
+                        </label> {{Specifications_Form.get('Region').value}}
+                    </div>
+                    <div *ngIf="contrainteData.source" class="col-md-3 mb-3">
+                        <label for="Source"> Source du produit :
+                        </label> {{Specifications_Form.get('Source').value}}
+                    </div>
+                    <div *ngIf="contrainteData.saison" class="col-md-3 mb-3">
+                        <label for="Saison"> Saison du produit :
+                        </label> {{Specifications_Form.get('Saison').value}}
+                    </div>
+                    <div *ngIf="contrainteData.role" class="col-md-3 mb-3">
+                        <label for="Role"> Role du produit :
+                        </label> {{Specifications_Form.get('Role').value}}
+                    </div>
+                    <div *ngIf="contrainteData.couleur" class="col-md-3 mb-3">
+                        <label for="Couleur"> Couleur du produit :
+                        </label> {{Specifications_Form.get('Couleur').value}}
+                    </div>
+                    <div *ngIf="contrainteData.taille" class="col-md-3 mb-3">
+                        <label for="Taille"> Taille du produit :
+                        </label> {{Specifications_Form.get('Taille').value}}
+                    </div>
+                    <div *ngIf="contrainteData.n_Imei" class="col-md-3 mb-3">
+                        <label for="N_Imei"> N° Imei du produit :
+                        </label> Oui
+                    </div>
+                    <div *ngIf="contrainteData.n_Imei2" class="col-md-3 mb-3">
+                        <label for="N_Imei2"> N° Imei 2 du produit :
+                        </label> Oui
+                    </div>
+                    <div *ngIf="contrainteData.n_serie" class="col-md-3 mb-3">
+                        <label for="N_serie"> N° serie du produit :
+                        </label> Oui
+                    </div>
+                    <div *ngIf="contrainteData.n_lot" class="col-md-3 mb-3">
+                        <label for="N_Lot"> N° de lot du produit :
+                        </label> Oui
+                    </div>
+                    <div *ngIf="contrainteData.date_Fabrication" class="col-md-3 mb-3">
+                        <label for="Date_Fabrication">Date fabrication du produit :
+                        </label>Oui
+                    </div>
+                    <div *ngIf="contrainteData.date_Validite" class="col-md-3 mb-3">
+                        <label for="Date_Validite"> Date Validité du produit :
+                        </label>Oui
+                    </div>
+                    <div *ngIf="contrainteData.temperature_Max" class="col-md-3 mb-3">
+                        <label for="Temperature_Max">Temperature max du produit :
+                        </label> {{Specifications_Form.get('Temperature_Max').value}}
+                    </div>
+                    <div *ngIf="contrainteData.temperature_Min" class="col-md-3 mb-3">
+                        <label for="Temperature_Min"> Temperature min du produit :
+                        </label> {{Specifications_Form.get('Temperature_Min').value}}
+                    </div>
+
+                </div>
+                <div *ngIf="contrainteData.rfid" class="col-md-3 mb-3">
+                    <label for="Rfid"> Rfid du produit : Ajoutée
+                    </label>
+                </div>
+                <div *ngIf="contrainteData.certificat" class="col-md-3 mb-3">
+                    <label for="Certificat"> Certificat du produit : Ajoutée
+                    </label>
+                </div>
+                <div *ngIf="contrainteData.src_Img" class="col-md-3 mb-3">
+                    <label for="Image"> image du produit :
+                    </label> <img id="myimage" src="data:image/png;base64,{{imageSrc}}" width="100" height="100" />
+                </div>
+                <div>
+                    <button mat-button matStepperPrevious class="btn-primary"
+                        style="margin-top: 20px; margin-right: 20px;">Retour</button>
+                    <button mat-button matStepperNext class="btn-primary" (click)="creerProduit()">Enregistrer</button>
+                </div>
+
+            </form>
+        </mat-step>
+        <mat-step>
+
+
+            <ng-template matStepLabel>Finalisation</ng-template>
+
+            <div class="row">
+
+
+
+                <mat-label> Vous avez ajouté avec succès un produit : </mat-label>
+                {{Informations_Generales_Form.get('Nom_Produit').value}}
+
+            </div>
+            <div>
+                <button mat-button class="btn-primary" matStepperPrevious
+                    style="margin-top: 20px; margin-right: 20px;">Retour</button>
+                <button mat-button class="btn-primary" (click)="genererPdfProduit()">Afficher En PDF</button>
+            </div>
+        </mat-step>
+    </mat-vertical-stepper>
+</div>

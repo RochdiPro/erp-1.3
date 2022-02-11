@@ -1,0 +1,761 @@
+
+<h1 class="col-xs-8 text-center">Modifier Bon Entrée Importation</h1>
+<mat-vertical-stepper [linear]="lineaire"  #stepperbonEntree>
+<mat-step [stepControl]="InformationsGeneralesForm">
+   <form [formGroup]="InformationsGeneralesForm">
+      <ng-template matStepLabel>Informations générales</ng-template>
+      <div class="row"  *ngIf="fournisseur">
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+              <mat-label>Fournisseur</mat-label>
+              <mat-select formControlName="Fournisseur" id="Fournisseur" [(ngModel)]="bonEntreeData.id_Fr"
+                name="Fournisseur">
+                <mat-option value=""></mat-option>
+                <mat-option *ngFor="let fournisseur of fournisseurs" value="{{fournisseur.id_Fr}}">
+                  {{fournisseur.id_Fr}} : {{fournisseur.nom_Fournisseur}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="InformationsGeneralesForm.get('Fournisseur').invalid">
+                {{MessageErreurFournisseur()}}</mat-error>
+            </mat-form-field>
+          </div>
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+              <mat-label>Type</mat-label>
+              <mat-select formControlName="Type" required [(ngModel)]="bonEntreeData.type" name="Type" id="Type">
+                <mat-option value="BL">BL</mat-option>
+                <mat-option value="Facture">Facture</mat-option>
+              </mat-select>
+              <mat-error *ngIf="InformationsGeneralesForm.get('Type').invalid">
+                {{MessageErreurType()}}</mat-error>
+            </mat-form-field>
+         </div>
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label>N° BL/Facture</mat-label>
+               <div class="form-group">
+                  <input type="text" id="N_Facture" name="N_Facture" [(ngModel)]="bonEntreeData.n_Facture" formControlName="N_Facture" matInput required>
+               </div>
+               <mat-error *ngIf="InformationsGeneralesForm.get('N_Facture').invalid">
+                  {{MessageErreurNFacture()}}
+               </mat-error>
+            </mat-form-field>
+         </div>
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label for="date_Bel">Date BL</mat-label>
+               <input  matInput formControlName="date_Bel" id="date_Bel"  [matDatepicker]="picker1"
+               placeholder="DD/MM/YYYY" name="date_Bel"  [ngModel]="date_Bel"   >
+           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+           <mat-datepicker #picker></mat-datepicker>
+                                    
+           </mat-form-field>
+         </div>
+      </div>
+      <div class="row"  *ngIf="bonEntreeData">
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label>Local</mat-label>
+               <mat-select formControlName="Local" required [ngModel]="bonEntreeData.local">
+                  <mat-option value=""></mat-option>
+                  <mat-option *ngFor="let Local of locals" [value]="Local.nom_Local">{{Local.nom_Local}}</mat-option>
+               </mat-select>
+               <mat-error *ngIf="InformationsGeneralesForm.get('Local').invalid">
+                  {{MessageErreurLocal()}}
+               </mat-error>
+            </mat-form-field>
+         </div>
+         <div class="col-md-3 mb-3">
+             
+            <mat-form-field>
+               <mat-label for="DateEntree">Date d'entrée </mat-label>
+               <input  matInput formControlName="DateEntree" id="DateEntree"  [matDatepicker]="picker2"
+               placeholder="DD/MM/YYYY" name="DateEntree"  [ngModel]="DateEntree"   >
+           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+           <mat-datepicker #picker></mat-datepicker>
+                                    
+           </mat-form-field>
+         </div>
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label>N° Proforma</mat-label>
+               <div class="form-group">
+                  <input type="text" id="N_Proforma" name="N_Proforma" formControlName="N_Proforma" [ngModel]="bonEntreeData.n_Preforma" matInput required>
+               </div>
+              
+            </mat-form-field>
+         </div>
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label for="DateProforma">Date Proforma </mat-label>
+               <input  matInput formControlName="DateProforma" id="DateProforma"  [matDatepicker]="picker3"
+               placeholder="DD/MM/YYYY" name="DateProforma"  [ngModel]="DateProforma"   >
+           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+           <mat-datepicker #picker></mat-datepicker>
+         </mat-form-field>
+         </div>
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label>Type Livraison</mat-label>
+               <mat-select formControlName="Type_Livraison" [ngModel]="bonEntreeData.type_Livraison">
+                  <mat-option value=""></mat-option>
+                  <mat-option value="Air">Transport aérien </mat-option>
+                  <mat-option value="Mer">Transport maritime </mat-option>
+                  <mat-option value="terre">Transport terrestre </mat-option>
+               </mat-select>
+               <mat-error *ngIf="InformationsGeneralesForm.get('Type_Livraison').invalid">
+                  {{MessageErreurTypelivraison()}}
+               </mat-error>
+            </mat-form-field>
+         </div>
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label for="DateLivraison">Date Livraison </mat-label>
+               <input  matInput formControlName="DateLivraison" id="DateLivraison"  [matDatepicker]="picker4"
+               placeholder="DD/MM/YYYY" name="DateLivraison"  [ngModel]="DateLivraison"   >
+           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+           <mat-datepicker #picker></mat-datepicker>
+         </mat-form-field>
+
+            
+         </div>
+         <div class="col-md-3 mb-3">
+            <mat-label>Mode Livraison</mat-label>
+            <mat-form-field>
+               <mat-select formControlName="Mode_Livraison" [ngModel]="bonEntreeData.Mode_Livraison">
+                  <mat-option value=""></mat-option>
+                  <mat-option value="CFR">CFR</mat-option>
+                  <mat-option value="FOB">FOB</mat-option>
+                  <mat-option value="EXW">EXW</mat-option>
+                  <mat-option value="FCA">FCA</mat-option>
+                  <mat-option value="CPT">CPT</mat-option>
+               </mat-select>
+               <mat-error *ngIf="InformationsGeneralesForm.get('Mode_Livraison').invalid">
+                  {{MessageErreurMode()}}
+               </mat-error>
+            </mat-form-field>
+         </div>
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label>Agence Transport</mat-label>
+               <mat-select formControlName="Ag_Transport" [ngModel]="bonEntreeData.ag_Transport">
+                  <mat-option value=""></mat-option>
+                  <mat-option *ngFor="let cat of liste_Agence_Transport" [value]="cat.nom">
+                  {{cat.nom}}</mat-option>
+               </mat-select>
+            </mat-form-field>
+         </div>
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label>Mode Paiement</mat-label>
+               <mat-select formControlName="Mode_Paiement" required [ngModel]="bonEntreeData.mode_Paiement">
+                  <mat-option value=""></mat-option>
+                  <mat-option *ngFor="let categorie of categorie_paiement" [value]="categorie.nom">
+                  {{categorie.nom}}</mat-option>
+               </mat-select>
+               <mat-error *ngIf="InformationsGeneralesForm.get('Mode_Paiement').invalid">
+                  {{MessageErreurMode()}}
+               </mat-error>
+            </mat-form-field>
+         </div>
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label for="DatePaiement">Date Paiement</mat-label>
+               <input  matInput formControlName="DatePaiement" id="DatePaiement"  [matDatepicker]="picker"
+               placeholder="DD/MM/YYYY" name="DatePaiement"  [ngModel]="DatePaiement"   >
+           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+           <mat-datepicker #picker></mat-datepicker>
+         </mat-form-field>
+          
+         </div>
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label>Agence Transitaire</mat-label>
+               <mat-select formControlName="Ag_Transitaire" [ngModel]="bonEntreeData.ag_Transitaire">
+                  <mat-option value=""></mat-option>
+                  <mat-option *ngFor="let cat of liste_Agence_Transitaire" [value]="cat.nom">
+                  {{cat.nom}}</mat-option>
+               </mat-select>
+            </mat-form-field>
+         </div>
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label>Assurance Importation DT</mat-label>
+               <input matInput formControlName="Assurance_Importation_DT"  [ngModel]="bonEntreeData.assurance_Importation_DT"type="text" required class="form-control">
+            </mat-form-field>
+         </div>
+      </div>
+      <div class="row" *ngIf="bonEntreeData">
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label>Devise </mat-label>
+               <mat-select formControlName="Devise" [ngModel]="bonEntreeData.devise">
+                  <mat-option value=""></mat-option>
+                  <mat-option value="EUR">EUR</mat-option>
+                  <mat-option value="USD">USD</mat-option>
+                  <mat-option value="DT">DT</mat-option>
+               </mat-select>
+            </mat-form-field>
+         </div>
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label>Cours </mat-label>
+               <input matInput formControlName="Cours" type="text" [ngModel]="bonEntreeData.cours" required class="form-control">
+            </mat-form-field>
+         </div>
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label>Transport Importation DV</mat-label>
+               <input matInput formControlName="Transport_Importation_DV" type="text" required class="form-control" [ngModel]="bonEntreeData.charge_Transport_Importation">
+            </mat-form-field>
+         </div>
+         <div class="col-md-3 mb-3">
+            <mat-checkbox class="check-margin" formControlName="Inclut" color="primary" checked="bonEntreeData.transport_Inclut" >Inclut Facture   
+            </mat-checkbox>
+         </div>
+      </div>
+      <mat-form-field class="full-width" *ngIf="bonEntreeData">
+         <mat-label>Note</mat-label>
+         <textarea matInput placeholder="Note" type="text" id="Des" name="Des" class="form-control" matInput  [ngModel]="bonEntreeData.description"
+            formControlName="Des"></textarea>
+      </mat-form-field>
+      <div>
+         <button mat-button matStepperNext class="btn btn-primary" style="margin-top: 20px;">
+         Suivant</button>
+      </div>
+   </form>
+</mat-step>
+<mat-step [stepControl]="InformationsBanquesForm">
+   <form [formGroup]="InformationsBanquesForm">
+      <ng-template matStepLabel>Banques</ng-template>
+      <h3 class="col-xs-8 ">Informations Banques</h3>
+      <div class="row" *ngIf="bonEntreeData">
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label>Titre</mat-label>
+               <div class="form-group">
+                  <input type="text" id="Titre" name="Titre" formControlName="Titre" matInput [ngModel]="bonEntreeData.titre" >
+               </div>
+            </mat-form-field>
+         </div>
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label>L/C</mat-label>
+               <div class="form-group">
+                  <input type="text" id="LC" name="LC" formControlName="LC" matInput   [ngModel]="bonEntreeData.lc">
+               </div>
+            </mat-form-field>
+         </div>
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label>Transfert</mat-label>
+               <div class="form-group">
+                  <input type="text" id="Transfert" name="Transfert" formControlName="Transfert" matInput  [ngModel]="bonEntreeData.transfert" >
+               </div>
+            </mat-form-field>
+         </div>
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label>FED</mat-label>
+               <div class="form-group">
+                  <input type="text" id="FED" name="FED" formControlName="FED" matInput [ngModel]="bonEntreeData.fed" >
+               </div>
+            </mat-form-field>
+         </div>
+      </div>
+      <h3 class="col-xs-8 "> Frais et Dépense    </h3>
+      <div class="row" *ngIf="bonEntreeData">
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label>Montant Facture DV</mat-label>
+               <div class="form-group">
+                  <input type="text" id="Totale_Facture" name="Totale_Facture" value= "100" formControlName="Totale_Facture" matInput required [ngModel]="bonEntreeData.lc">
+               </div>
+               <mat-error *ngIf="InformationsBanquesForm.get('Totale_Facture').invalid">
+                  {{MessageErreurTotaleFacture()}}
+               </mat-error>
+            </mat-form-field>
+         </div>
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label>Montant Déclaré DT</mat-label>
+               <div class="form-group">
+                  <input type="text" id="Totale_declare" name="Totale_declare" value= "100" formControlName="Totale_declare" matInput
+                     required>
+               </div>
+               <mat-error *ngIf="InformationsBanquesForm.get('Totale_declare').invalid">
+                  {{MessageErreurTotaledeclare()}}
+               </mat-error>
+            </mat-form-field>
+         </div>
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label>Charge Transport</mat-label>
+               <div class="form-group">
+                  <input type="text" id="Transport" name="Transport" formControlName="Transport" matInput required>
+               </div>
+               <!--<mat-error *ngIf="InformationsGeneralesForm.get('N_Facture').invalid">
+                  {{MessageErreurNFacture()}}</mat-error>-->
+            </mat-form-field>
+         </div>
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label>Charge Transitaire</mat-label>
+               <div class="form-group">
+                  <input type="text" id="Transitaire" name="Transitaire" formControlName="Transitaire" matInput
+                     required>
+               </div>
+            </mat-form-field>
+         </div>
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label>Charge Banque</mat-label>
+               <div class="form-group">
+                  <input type="text" id="Banque" name="Banque" formControlName="Banque" matInput required>
+               </div>
+            </mat-form-field>
+         </div>
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label>Charge Magasinage</mat-label>
+               <div class="form-group">
+                  <input type="text" id="Magasinage" name="Magasinage" formControlName="Magasinage" matInput
+                     required>
+               </div>
+            </mat-form-field>
+         </div>
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label>Pénalité</mat-label>
+               <div class="form-group">
+                  <input type="text" id="Penalite" name="Penalite" formControlName="Penalite" matInput required>
+               </div>
+            </mat-form-field>
+         </div>
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label>Autre Charge </mat-label>
+               <div class="form-group">
+                  <input type="text" id="AutreCharge" name="AutreCharge" formControlName="AutreCharge" matInput
+                     required>
+               </div>
+            </mat-form-field>
+         </div>
+      </div>
+      <h3 class="col-xs-8 ">Documents liées</h3>
+      <div class="row" *ngIf="bonEntreeData">
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label for="Document_Banque"> Document Banque </mat-label>
+               <ngx-mat-file-input matInput id="Document_Banque" name="Document_Banque"  [(ngModel)]=bonEntreeData.doc_Banque
+                  formControlName="Document_Banque" placeholder="Selectionner Document Banque" [accept]="'.pdf'">
+               </ngx-mat-file-input>
+            </mat-form-field>
+            <i class="pe-7s-look" (click)="download_doc_banque(bonEntreeData.id_Bon)" style="color: darkblue;"></i>
+          </div>
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label for="Document_Importation"> Document Importation </mat-label>
+               <ngx-mat-file-input matInput id="Document_Importation" name="Document_Importation"
+                  formControlName="Document_Importation" placeholder="Selectionner Document Importation"
+                  [accept]="'.pdf'">
+               </ngx-mat-file-input>
+            </mat-form-field>
+            <i class="pe-7s-look" (click)="download_doc_importation(bonEntreeData.id_Bon)" style="color: darkblue;"></i>
+
+         </div>
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label for="Document_Transitaire"> Document Transitaire </mat-label>
+               <ngx-mat-file-input matInput id="Document_Transitaire" name="Document_Transitaire"
+                  formControlName="Document_Transitaire" placeholder="Selectionner Document Transitaire"
+                  [accept]="'.pdf'">
+               </ngx-mat-file-input>
+            </mat-form-field>
+            <i class="pe-7s-look" (click)="download_doc_transaitaire(bonEntreeData.id_Bon)" style="color: darkblue;"></i>
+
+         </div>
+         <div class="col-md-3 mb-3">
+            <mat-form-field>
+               <mat-label for="Document_Transport"> Document Transport </mat-label>
+               <ngx-mat-file-input matInput id="Document_Transport" name="Document_Transport"
+                  formControlName="Document_Transport" placeholder="Selectionner Document Transport"
+                  [accept]="'.pdf'">
+               </ngx-mat-file-input>
+            </mat-form-field>
+            <i class="pe-7s-look" (click)="download_doc_transport(bonEntreeData.id_Bon)" style="color: darkblue;"></i>
+         </div>
+      </div>
+      <div>
+         <button mat-button matStepperNext class="btn btn-primary" style="margin-top: 20px;">
+         Suivant</button>
+      </div>
+   </form>
+</mat-step>
+<mat-step [stepControl]="ListeArticleForm" label=" Articles">
+   <div class='table'>
+      <div class='row'>
+         <div class="col-md-9 mb-9">
+            <table class="table table-striped ">
+               <thead>
+                  <tr>
+                     <th></th>
+                     <th>Id_Produit </th>
+                     <th>Nom_Produit</th>
+                     <th>Ref_FRS</th>
+                     <th>Quantite</th>
+                     <th>Prix_U_DV</th>
+                     <th>Total_DV</th>                      
+                     <th></th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr *ngFor="let field of fieldArray; let i = index; ">
+                     <td>
+                        <i class="pe-7s-pen" (click)="ouvreDialogCharge(i,field,fieldArray)" title="Modifier"></i>
+                     </td>
+                     <td>
+                        <input [(ngModel)]="field.Id_Produit" class="form-control" type="text" name="{{field.id_Produit}}"
+                        disabled />
+                     </td>
+                     <td>
+                        <input [(ngModel)]="field.Nom_Produit" class="form-control" type="text" name="{{field.Nom_Produit}}"
+                        disabled />
+                     </td>
+                     <td>
+                        <input [(ngModel)]="field.Ref_FR" class="form-control" type="text" name="{{field.Ref_FR}}" disabled />
+                     </td>
+                     <td>
+                        <input [(ngModel)]="field.Quantite" class="form-control" type="text" name="{{field.Quantite}}"
+                        disabled />
+                     </td>
+                     <td>
+                        <input [(ngModel)]="field.PrixU_dv" class="form-control" type="text" name="{{field.PrixU_dv}}" disabled />
+                     </td>
+                     <td>
+                        <input [(ngModel)]="field.Prix_t_dv" class="form-control" type="text" name="{{field.Prix_t_dv}}" disabled />
+                     </td>                     
+                     <td>
+                        <i class="pe-7s-trash" (click)="deleteFieldValue(i)" title="Supprimer"></i>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+         <div class="col-md-3 mb-3">
+            <div>
+               <mat-select  id="newAttributeId_produit" name="Pays" placeholder="Produit"   [(ngModel)]="newAttribute.Id_produit"
+               id="newAttributeId_produit" (selectionChange)="ProduitSelectionner($event)" required>
+               <mat-option *ngFor="let produit of produits" [value]="produit.id_Produit" [disabled]="produit.disabled"  >
+               {{produit.id_Produit}} : {{produit.nom_Produit}}</mat-option>
+               </mat-select>
+            </div>
+            <div class="col-md-3 mb-3">
+               <mat-form-field>
+                  <mat-label>Ref_Article_FR</mat-label>
+                  <div>
+                     <input matInput  type="text" id="Ref_FR_article" [(ngModel)]="Ref_FR_article"
+                     name="Ref_FR_article">
+                  </div>
+               </mat-form-field>
+               <mat-form-field>
+                  <mat-label>NGP</mat-label>
+                  <mat-select   placeholder="NGP"  [(ngModel)]="newAttribute.NGP"  [(ngModel)]="NGP"    (selectionChange)="changer_ngp($event)" >                    
+                  <mat-option *ngFor="let ngp of Lngp" [value]="ngp.nom"  >
+                  {{ngp.nom}}</mat-option>
+                  </mat-select>                  
+               </mat-form-field>
+               <mat-form-field hintLabel=" La quantité ne doit pas être nulle">
+                  <mat-label>Quantité</mat-label>
+                  <input matInput class="form-control" type="text" id="newAttributeQuantite" min="0.1"
+                  [(ngModel)]="newAttribute.Quantite" name="newAttributeQuantite"  >
+                  <mat-error *ngIf="ListeArticleForm.get('Quantite').invalid">{{MessageErreurQte()}}</mat-error>
+               </mat-form-field>
+               <mat-form-field>
+                  <mat-label>Prix U DV</mat-label>
+                  <input matInput  type="text" id="newAttribute.PrixU_dv" [(ngModel)]="newAttribute.PrixU_dv"
+                  name="PrixU">
+               </mat-form-field>
+               
+               <button class="btn btn-primary" type="button" [disabled]="click" (click)="clacule_taxe_ngp()">Ajouter</button>          
+            </div>
+         </div>
+      </div>
+   </div>    
+   <div class="row">
+      <div class="col-md-3 mb-3">
+         <table class="tableau">
+            <tr>
+               <th style="text-align: left;">Total Facture DV :</th>
+               <td>{{sommedv}} </td>
+            </tr>             
+         </table>
+      </div>      
+   </div>
+   <div>
+      <button mat-button matStepperPrevious class="btn btn-default" style="margin-top: 20px;">Précédent</button>
+      <button mat-button matStepperNext class="btn btn-primary" style="margin-top: 20px;">
+      Suivant</button>
+   </div>
+</mat-step>
+<mat-step [stepControl]="ListeArticleForm" label=" NGP">
+   <div class='table'>
+      <div class='row2'>
+         <div class='cell1'>
+            <table class="table table-striped ">
+               <thead>
+                  <tr>                    
+                     <th>NGP </th>
+                     <th>déclaré</th>                     
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr *ngFor="let field of liste_des_ngp_declare; let i = index; ">
+                      
+                     <td>
+                        <input [(ngModel)]="field.ngp" class="form-control" type="text" name="{{field.ngp}}"
+                        disabled />
+                     </td>
+                     <td>
+                        <input [(ngModel)]="field.prix" class="form-control" type="text" name="{{field.prix}}"   (change)="calcule_toto()" />
+                     </td>
+                     
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      
+      </div>
+   </div>
+   
+   <div>
+      <button mat-button matStepperPrevious class="btn btn-default" style="margin-top: 20px;">Précédent</button>
+      <button mat-button matStepperNext class="btn btn-primary" style="margin-top: 20px;">
+      Suivant</button>
+   </div>
+</mat-step>
+<mat-step [stepControl]="ListeArticleForm" label=" Charges">
+  
+   <div class='table'>
+      <div class='row2'>
+         <div class='cell1'>
+            
+            
+             <table  class="mb-0 table table-bordered"  >
+               <thead>
+                  <tr>
+                      
+                     <th>Numéro_NGP</th>                            
+                     <th>Nom_Produit</th>
+                     <th>Qte_Produit</th>
+                     <th>%_TVA</th>
+                     <th>M_TVA_U</th>  
+                     <th>%_Charge Globale</th>
+                     <th>M_Charge_U </th>                   
+                     <th>Prix_R_U_HT</th>
+                     <th>Total_R_HT</th>
+                     <th>Signaler</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr *ngFor="let field of fieldArray; let i = index; " style="text-align: center">
+                  
+                     <td> {{field.NGP}}   </td>
+                     <td>{{field.Nom_Produit}} </td>
+                     <td>{{field.Quantite}} </td>
+                     <td>{{field.Tva}} </td>
+                     <td>{{field.M_TVA}}</td>                          
+                     <td> <input [(ngModel)]="field.porcentage_Ch" class="form-control" type="text" name="{{field.porcentage_Ch}}"  (change)="mise_a_jour_charge(i,field)" /></td>
+                     <td>{{field.charge_U}}  </td>                    
+                     <td>{{field.Prix_rev_ht}}</td>
+                     <td>{{field.Total_rev_ht}} </td>
+                     <td> 
+                        <mat-checkbox [(ngModel)]="field.signaler_probleme" class="form-control" class="check-margin"
+                        [checked]="field.signaler_probleme" color="primary"></mat-checkbox>
+                     </td>
+                    
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      </div>
+   </div>
+   <div class="row">
+      
+      <div class="col-md-3 mb-3">
+         <table class="tableau">
+            <tr>
+               <th style="text-align: left;">Total Facture DV :</th>
+               <td>{{sommedv}} </td>
+            </tr>
+            <tr>
+               <th style="text-align: left;">Valeur Total en douane :</th>
+               <td>{{sommedeclare}} </td>
+            </tr>
+          
+            
+         </table>
+      </div>
+      <div class="col-md-3 mb-3">
+         <table class="tableau">
+          
+            <tr>
+               <th style="text-align: left;">Total TVA :</th>
+               <td> {{sommetva}}</td>
+            </tr>
+            <tr>
+               <th style="text-align: left;">Assiette 19 % :</th>
+               <td> {{assiette19}}</td>
+            </tr>
+            <tr>
+               <th style="text-align: left;">Assiette 13 %  :</th>
+               <td> {{assiette13}}</td>
+            </tr>
+            <tr>
+               <th style="text-align: left;">Assiette 7 %  :</th>
+               <td> {{assiette7}}</td>
+            </tr>
+           
+            
+          
+         </table>
+      </div>
+
+      <div class="col-md-3 mb-3">
+         <table class="tableau">  
+           
+            <tr>
+               <th style="text-align: left;"> Charge GLobale  : </th>
+               <td> {{sommecharge}}</td>
+            </tr>  
+            <tr>
+               <th style="text-align: left;">Total Fodec :</th>
+               <td> {{sommefodec}}</td>
+            </tr>  
+              
+            
+         </table>
+      </div>
+      
+      <div class="col-md-3 mb-3">
+         <table class="tableau">
+            <tr>
+               <th style="text-align: left;">Total Déclaration :</th>
+               <td> {{sommetaxe}}</td>
+            </tr>         
+            <tr>
+               <th style="text-align: left;">Total R HT  : </th>
+               <td> {{sommeRHT}}</td>
+            </tr>
+            
+         </table>
+      </div>
+   </div>
+   <div>
+      <button mat-button matStepperPrevious class="btn btn-default" style="margin-top: 20px;">Précédent</button>
+      <button mat-button matStepperNext class="btn btn-primary" style="margin-top: 20px;">
+      Suivant</button>
+   </div>
+</mat-step>
+ 
+<mat-step [stepControl]="EntreeForm" label="Entrée">
+   <table class="table table-striped ">
+      <thead>
+         <tr style="text-align:center;">
+            <th>Id produit</th>
+            <th>Nom produit</th>
+            <th>Quantité Entrée</th>
+            <th>Entrée En Stock</th>
+            <th>Vérification Entrée En Stock</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr *ngFor="let field of fieldArray; let i = index; ">
+            <td>
+               <input type="text" [(ngModel)]="field.id_produit" class="form-control" type="text"
+               name="{{field.Id_produit}}" size="2" disabled />
+            </td>
+            <td>
+               <input type="text" [(ngModel)]="field.Nom_Produit" class="form-control" type="text"
+               name="{{field.Nom_Produit}}" size="6" disabled />
+            </td>
+            <td>
+               <input type="text" [(ngModel)]="field.Quantite" class="form-control" type="text" name="{{field.Quantite}}"
+               size="2" disabled />
+            </td>
+            <td style="text-align:center;">
+               <i class="pe-7s-note" (click)="testerType(i)"></i>
+            </td>
+            <td style="text-align:center;">
+               <input type="text" [(ngModel)]="field.EtatEntree" class="form-control" name="{{field.EtatEntree}}"
+               disabled />
+            </td>
+         </tr>
+      </tbody>
+   </table>
+   <div>
+      <button mat-button matStepperPrevious class="btn btn-default" style="margin-top: 20px;">Précédent</button>
+      <button mat-button matStepperNext class="btn btn-primary" style="margin-top: 20px;">
+      Suivant</button>
+   </div>
+</mat-step>
+ 
+<mat-step>
+   <ng-template matStepLabel>Récaputilation</ng-template>
+   <div id="contentToConvert" style="margin-left: 45px;" class="main-container">
+      <div class="row">
+         <div class="col-md-3 mb-3">
+            <label for="Type">Type : </label>&nbsp; {{InformationsGeneralesForm.get('Type').value}}
+         </div>
+         <div class="col-md-3 mb-3">
+            <label for="N_Facture"> N° Proforma : </label>&nbsp; {{InformationsGeneralesForm.get('N_Proforma').value}}
+         </div>
+         <div class="col-md-3 mb-3">
+            <label for="Date"> Date : </label>&nbsp; {{InformationsGeneralesForm.get('DateEntree').value}}
+         </div>
+         <div class="col-md-3 mb-3">
+            <label for="Fournisseur">Fournisseur: </label>&nbsp; {{InformationsGeneralesForm.get('Fournisseur').value}}
+         </div>
+         <div class="col-md-3 mb-3">
+            <label for="Depot">Local : </label>&nbsp; {{InformationsGeneralesForm.get('Local').value}}
+         </div>
+        
+         <div class="col-md-3 mb-3">
+            <label for="Totale_TVA">Mode Livraison : </label>&nbsp;
+            {{InformationsGeneralesForm.get('Mode_Livraison').value}}
+         </div>
+      
+         <div class="col-md-3 mb-3">
+            <label for="Totale_Facture"> Date Proforma : </label>&nbsp;
+            {{InformationsGeneralesForm.get('DateProforma').value | date:'dd-MM-yyyy'}}
+         </div>
+         <div class="col-md-3 mb-3">
+            <label for="Totale_TVA">Date Facture : </label>&nbsp;
+            {{InformationsGeneralesForm.get('DateFacture').value | date:'dd-MM-yyyy'}}
+         </div>
+         <div class="col-md-3 mb-3">
+            <label for="Totale_TTC">Total Charge : {{sommecharge}} </label>&nbsp;
+         </div>
+         <div class="col-md-3 mb-3">
+            <label for="Totale_TTC">  Total Déclarations: {{sommedeclare}} </label>&nbsp;
+         </div>
+         <div class="col-md-3 mb-3">
+            <label for="Totale_TTC">  Total Taxe: {{sommetaxe}} </label>&nbsp;
+         </div>
+         <div class="col-md-3 mb-3">
+            <label for="Totale_TTC">Total Revient : {{sommeRHT}} </label>&nbsp;
+         </div>
+      </div>
+      <br>
+      <div class="col-md-3 mb-3">
+         <label for="Des">Note : </label> &nbsp; {{InformationsGeneralesForm.get('Des').value}}
+      </div>
+   </div>
+   <div>
+      <button mat-button matStepperPrevious class="btn btn-default" style="margin-top: 20px;">Précédent</button>
+      <button mat-button (click)="stepperbonEntree.reset()" class="btn" style="margin-top: 20px;">
+      Réinitialiser</button>             
+      <button mat-button   class="btn btn-primary" style="margin-top: 20px;" (click)="Modifierbon ()" >
+      Valider</button>
+   </div>
+</mat-step>
+</mat-vertical-stepper>

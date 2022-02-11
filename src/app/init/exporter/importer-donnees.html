@@ -1,0 +1,22 @@
+<form [formGroup]="ImporterDonneesClient_form">
+    Cliquez pour importer un ou plusieurs {{donnee }}(s)     
+<div>
+<mat-form-field>
+    <mat-label for="Fiche_Client"> Fiche {{donnee }} </mat-label>
+
+    <ngx-mat-file-input matInput id="Fiche_Client" name="Fiche_Client"
+        formControlName="Fiche_Client" placeholder="Selectionner Fiche Client"
+        [accept]="' .xml'" required>
+</ngx-mat-file-input>
+</mat-form-field>
+</div>
+</form>
+<div mat-dialog-actions>
+<div class="col-md-3 mb-3">
+<input type="button" class="btn btn-primary" (click)="Fermer()" value="Fermer">
+<br>
+</div>
+<div class="col-md-3 mb-3">
+<input type="button" class="btn btn-primary" (click)="importer()" value="Importer">
+</div>
+</div>

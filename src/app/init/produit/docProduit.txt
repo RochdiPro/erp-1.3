@@ -1,0 +1,17 @@
+****Add below specific configuration in package.json and npm install.
+
+{
+  "scripts": {
+    "postinstall": "ngcc"
+  }
+}
+installation des packages : *** material/card: npm i @material/card
+                            *** npm i @angular/flex-layout
+                            *** npm i @angular-material-components/file-input
+                            *** npm i @swimlane/ngx-datatable --save
+                            *** npm i @material/tabs
+                            *** npm i angular-material-pagination
+                            *** npm i material-table
+                            *** npm i ng2-pdf-viewer
+                            *** npm i sweetalert2
+                            *** npm i write-file

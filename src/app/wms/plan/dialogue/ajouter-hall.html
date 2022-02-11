@@ -1,0 +1,44 @@
+<h1 mat-dialog-title style="text-align: center;"> Hall </h1>
+
+<div mat-dialog-content>
+    <div class="row">
+        <div class="table-responsive">
+            <table class="mb-0 table">
+                
+                <tbody>
+                    <tr>
+                        <th>Titre  </th>
+                        <input  style="margin-left: 5%;" type="text"   value="{{obj.titre}}"  (keyup)="gettitre($event)">
+                    </tr>
+                    <tr>
+                        <th>Position X</th>
+                        <th><input type="number" value="{{obj.x}}" (keyup)="getx($event)"></th>
+                    </tr>
+                    <tr>
+                        <th>Position Y</th>
+                        <th><input type="number" value="{{obj.y}}" (keyup)="gety($event)"></th>
+                    </tr>
+                    <tr>
+                        <th>Largeur  </th>
+                        <th><input type="number" value="{{obj.l}}" (keyup)="getl($event)"></th>
+                    </tr>
+                    <tr>
+                        <th>Hauteur</th>
+                        <th><input type="number" value="{{obj.p}}" (keyup)="getp($event)"></th>
+                    </tr>
+                    <tr>
+                        <th>Couleur  </th>
+                        <input style=" margin-left: 5%; width: 90%;" type="color" id="head" name="head" value="{{obj.couleur}}"  (change)="getcouleur($event)">
+                    </tr>
+                    
+                   
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div mat-dialog-actions class="float-right">
+    <button class="mb-2 mr-2 btn btn-primary" (click)="Ajouter()">Ajouter</button>
+    <button class="mb-2 mr-2 btn btn-primary" (click)="close()">Fermer</button>
+</div>
