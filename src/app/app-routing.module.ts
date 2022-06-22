@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { MenuMenuComponent } from './menu/menu-menu/menu-menu.component';
 import { MenuComponent } from './menu/menu.component';
  
 
@@ -7,6 +8,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'cnx', pathMatch: 'full' },
   {
     path: 'Menu', component: MenuComponent, children: [      
+      { path: 'Menu',  component: MenuMenuComponent  },
       { path: 'WMS', loadChildren: () => import('./wms/wms.module').then(m => m.WmsModule) },
       { path: 'Menu-init', loadChildren: () => import('./init/init.module').then(m => m.InitModule) },
       { path: 'Menu-vente', loadChildren: () => import('./vente/vente.module').then(m => m.VenteModule) },    

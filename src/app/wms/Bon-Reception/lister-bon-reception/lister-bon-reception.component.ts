@@ -35,7 +35,6 @@ export class ListerBonReceptionComponent implements OnInit {
   }
   displayedColumns: string[] = ['modifier', 'id', "responsable", "etat", "type_Be", "id_Be", 'supprimer']; //les colonne du tableau 
   dataSource = new MatTableDataSource<table>();
-
   bonReception: any;
 
 

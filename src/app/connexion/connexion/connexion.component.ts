@@ -19,22 +19,25 @@ export class ConnexionComponent {
 
   }
   connecter(id: any, pwd: any, socite: any) { 
-    this.service.connexion(id, pwd).subscribe((data) => {
-      this.emp = data
-      if (this.emp == null) {
-        Swal.fire(
-          'error ',
-          'merci de vérifier les données de votre compte ',
-          'error'
-        )
-      }
-      else {
-        sessionStorage.setItem('Utilisateur', '' + this.emp.nom);
-        // sessionStorage.setItem('Acces', this.emp.acces);
-        sessionStorage.setItem('Acces',       "1444444"    );     
-        this.router.navigate([ 'Menu/Menu-RH/Menu-employee/Visualiser-employee/'+this.emp.id_Employe ]);
-      }
-    })
+    // this.service.connexion(id, pwd).subscribe((data) => {
+    //   this.emp = data
+    //   if (this.emp == null) {
+    //     Swal.fire(
+    //       'error ',
+    //       'merci de vérifier les données de votre compte ',
+    //       'error'
+    //     )
+    //   }
+    //   else {
+    //     sessionStorage.setItem('Utilisateur', '' + this.emp.nom);
+    //     // sessionStorage.setItem('Acces', this.emp.acces);
+    //     sessionStorage.setItem('Acces',       "1444444"    );     
+    //     this.router.navigate([ 'Menu/Menu-RH/Menu-employee/Visualiser-employee/'+this.emp.id_Employe ]);
+    //   }
+    // })
+    sessionStorage.setItem('Acces',       "1444444"    );
+    this.router.navigate([ 'Menu/Menu' ]);
+ 
 
   }
 

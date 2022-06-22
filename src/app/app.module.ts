@@ -9,12 +9,14 @@ import { MatPaginatorIntl } from '@angular/material/paginator';
 import { MenuComponent } from './menu/menu.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
+import { MenuMenuComponent } from './menu/menu-menu/menu-menu.component';
  
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent 
+    MenuComponent,
+    MenuMenuComponent 
        ],
   imports: [  
     BrowserModule,

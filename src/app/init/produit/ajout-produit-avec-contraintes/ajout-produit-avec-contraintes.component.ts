@@ -330,7 +330,7 @@ export class AjoutProduitAvecContraintesComponent {
          } else formData.append('Rfid', this.Specifications_Form.get('Rfid').value);
     this.serviceProduit.ajouterProduit(formData).subscribe(response => {
       Swal.fire({
-        position: 'top-end',
+      
         icon: 'success',
         title: 'Produit ajouté avec succès',
         showConfirmButton: false,
@@ -339,7 +339,7 @@ export class AjoutProduitAvecContraintesComponent {
       return response;
     }, err => {
       Swal.fire({
-        position: 'top-end',
+        
         icon: 'error',
         title: 'erreur d'+"'"+'ajout',
         showConfirmButton: false,
