@@ -104,6 +104,7 @@ export class ModifierLocalComponent implements OnInit {
     formData.append('Profondeur', this.localData.profondeur);
     formData.append('Latitude', this.localData.latitude);
     formData.append('Longitude', this.localData.longitude);
+    formData.append('Surface', this.localData.surface);
     formData.append('Email', this.localData.email);
     formData.append('Adresse', this.localData.adresse);
     formData.append('Tel', this.localData.tel);

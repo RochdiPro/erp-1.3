@@ -427,6 +427,7 @@ export class AjouterBonEntreeComponent implements OnInit {
       this.totalHTBrut = total11.toFixed(3);
       this.totalMontantFodec = total10.toFixed(3);
       this.totalMontantTVA = total1.toFixed(3);
+ 
     }
   }
   //Récuperer tous locaux
