@@ -1152,11 +1152,10 @@ export class AjouterBonEntreeImportationComponent implements OnInit {
         var vN_Series = doc.createElement('N_Series');
         for (let j = 0; j < this.fieldArray[i].tableaux_produits_serie.length; j++) {
 
-          var N_Serie = doc.createElement('N_Serie'); N_Serie.innerHTML = this.fieldArray[i].detail[j].ns
-
-
+          var N_Serie = doc.createElement('N_Serie'); N_Serie.innerHTML = this.fieldArray[i].detail[j].ns 
           vN_Series.appendChild(N_Serie);
         }
+        
 
         Produit.appendChild(id);
         Produit.appendChild(Nom);
@@ -1176,6 +1175,7 @@ export class AjouterBonEntreeImportationComponent implements OnInit {
         Produit.appendChild(Charge_Piece);
         Produit.appendChild(Prix_Revient_U);
         Produit.appendChild(Total_rev_ht);
+        console.log(vN_Series)
         Produit.appendChild(vN_Series);
         
         Produit.appendChild(  PrixU)
@@ -1522,6 +1522,39 @@ export class AjouterBonEntreeImportationComponent implements OnInit {
         formData.append('Details', myFile);        
         this.bonEntreeService.ajouterBonEntree(formData);
         this.router.navigate(['Menu/Menu-bon-entree-importation/Lister-bon-entree-importation'])
+
+        this.bonEntreeService.ajouterBonEntree(formData).subscribe((data) => {
+          
+ 
+          Swal.fire({
+            title: "Bon d'entrée  ",
+            text: "Bon d'entrée   ajouté avec succés",
+
+            icon: 'success',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonColor: 'green',
+            denyButtonColor: 'green',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Imprimer',
+            cancelButtonText: 'Quitter',
+            denyButtonText: 'PDF & Annexe',
+
+          }).then((result) => {
+
+
+            if (result.isConfirmed) {
+           //   this.generatePDF(this.reponseajout.id_Bon_Entree_Local, this.reponseajout.date_Creation)
+
+            } else if (result.isDenied) {
+            //  this.generatePDF_annexe(this.reponseajout.id_Bon_Entree_Local, this.reponseajout.date_Creation)
+
+            }
+
+
+
+          })
+        });
       });      
 
   }

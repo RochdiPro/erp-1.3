@@ -178,10 +178,8 @@ export class BonEntreeImportationServiceService {
       }).pipe(catchError(this.handleError()))
   }
   //Ajouter bon d'entrée  
-  ajouterBonEntree(bon :any ) {
-    this.http.post(infonet + 'Creer_Fiche_Bon_Entree_Importation', bon   ).subscribe(
-      (response) => console.log(),
-      (error) => console.log(error))
+  ajouterBonEntree(bon :any ): Observable<Object> {
+    return this.http.post(infonet + "/Creer_Fiche_Bon_Entree_Importation", bon  );
   }
   //Modifier bon d'entrée  
   modifierBonEntree(bon: any) {

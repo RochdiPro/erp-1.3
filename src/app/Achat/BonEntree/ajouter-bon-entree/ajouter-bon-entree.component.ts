@@ -414,7 +414,8 @@ export class AjouterBonEntreeComponent implements OnInit {
       total5 += (Number(this.fieldArray[i].Remise) * Number(this.fieldArray[i].PrixU) * Number(this.fieldArray[i].Quantite)) / 100;
       this.totalRemise = total5.toFixed(3);
       total9 += (Number(this.fieldArray[i].Fodec) * (Number(this.fieldArray[i].Quantite)));
-      this.totalPorcentageFodec = total9;
+      this.totalPorcentageFodec = total9;      
+      console.log(this.fieldArray[i].PrixRevientU,"prix r u ")
       total6 += ((Number(this.fieldArray[i].PrixRevientU)) * (Number(this.fieldArray[i].Quantite)));
       this.totalRHT = total6.toFixed(3);
       total7 += ((Number(this.fieldArray[i].PrixRevientU)) * (Number(this.fieldArray[i].Quantite)) + Number(this.fieldArray[i].Montant_TVA) + Number(this.fieldArray[i].Montant_Fodec));
@@ -424,9 +425,12 @@ export class AjouterBonEntreeComponent implements OnInit {
       this.newAttribute.totalPourcentCh = this.totalPourcentCh;
       total10 += this.fieldArray[i].Montant_Fodec;
       total11 += (Number(this.fieldArray[i].PrixU) * Number(this.fieldArray[i].Quantite));
+
       this.totalHTBrut = total11.toFixed(3);
       this.totalMontantFodec = total10.toFixed(3);
       this.totalMontantTVA = total1.toFixed(3);
+
+      console.log(total1 ,total2 ,total3 ,total4 ,total5 ,total6 ,total7 ,total8 ,total9 ,total10 ,total11 )
  
     }
   }
@@ -1233,7 +1237,6 @@ export class AjouterBonEntreeComponent implements OnInit {
           })
         });
       });
-
       // this.router.navigate(['Menu/Menu-achat/Menu-bon-entree/Lister-bon-entree'])
   }
 

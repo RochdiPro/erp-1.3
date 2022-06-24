@@ -81,7 +81,7 @@ export class BonEntreeService {
     return this.http.post(infonet + "/Creer_Fiche_Bon_Entree_Local", bonEntreeLocal  );
   }
 
-   
+ 
   //Modifier bon d'entrée local
   modifierBonEntreeLocal(bonEntreeLocal: any) : Observable<Object> {
     return this.http.post(infonet + 'Modifier_Fiche_Bon_Entree_Local', bonEntreeLocal);
