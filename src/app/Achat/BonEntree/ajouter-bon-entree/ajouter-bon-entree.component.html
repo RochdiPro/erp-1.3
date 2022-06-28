@@ -1,5 +1,6 @@
 <h1 class="col-xs-8 text-center">Ajouter Bon Entrée Local</h1>
 <mat-horizontal-stepper [linear]="lineaire" #stepperbonEntree>
+  <!--  step information generale   -->
   <mat-step [stepControl]="InformationsGeneralesForm">
     <form [formGroup]="InformationsGeneralesForm">
       <ng-template matStepLabel>Informations Générales</ng-template>
@@ -131,8 +132,9 @@
       </div>
     </form>
   </mat-step>
-  <mat-step [stepControl]="ListeArticleForm" label=" Articles"> 
-    
+
+  <!--  step ajouter articles -->
+  <mat-step [stepControl]="ListeArticleForm" label=" Articles">     
     <button class="pull-right btn btn-primary" (click)="openDialog()" ><i class="pe-7s-plus"></i>Ajouter</button>
     <br> <br>
     <div class='table'>
@@ -274,18 +276,15 @@
         Suivant</button>
     </div>
   </mat-step>
-  <mat-step [stepControl]="ChargeForm" label=" Charges">
-    <!-- <div>
-      <mat-checkbox class="check-margin" [checked]="cocher" color="primary" (change)="testCheck($event)">Charge
-        automatique</mat-checkbox>
-    </div> -->
+
+  <!-- step affecter charge -->
+  <mat-step [stepControl]="ChargeForm" label=" Charges"> 
     <div class='table'>
       <div class='row2'>
         <div class='cell1'>
           <table class="table table-striped ">
             <thead>
-              <tr>
-                
+              <tr> 
                 <th>Id produit</th>
                 <th>Ref FR</th>
                 <th>Qte</th>
@@ -363,7 +362,7 @@
               </tr>
             </tbody>
           </table>
-          6666
+          
           <table class="tableau">
             <tr>
               <th style="text-align: left;">Total H.T Brut :</th>
@@ -407,6 +406,8 @@
         Suivant</button>
     </div>
   </mat-step>
+
+  <!-- Step entre informations produits -->
   <mat-step [stepControl]="EntreeForm" label="Entrée">
     <table class="table table-striped ">
       <thead>
@@ -448,6 +449,7 @@
         Suivant</button>
     </div>
   </mat-step>
+  <!-- step recap information -->
   <mat-step>
     <ng-template matStepLabel>Récaputilation</ng-template>
     <div id="contentToConvert" style="margin-left: 45px;" class="main-container">
@@ -523,13 +525,6 @@
         Valider</button>
     </div>
   </mat-step>
-  <mat-step>
-    <ng-template matStepLabel>Terminé</ng-template>
-    <p>
-      Bon d'entrée local ajouté avec succès.</p>
-    <div id="contentToConvert" style="margin-left: 45px;" class="main-container">
-      <div class="row">
-      </div>
-    </div>
-  </mat-step>
+
+ 
 </mat-horizontal-stepper>

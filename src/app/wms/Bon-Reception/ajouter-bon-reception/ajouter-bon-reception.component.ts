@@ -293,6 +293,7 @@ export class AjouterBonReceptionComponent implements OnInit {
     this.id = id;
     if (this.bonEntree_selected) {
       this.service.Quantite_Fiche_Technique_Fiche_Bon_Entree_Local(id).subscribe((data: any) => {
+        console.log(data)
         this.listeArticleBon = data;    
         for (let i = 0; i < this.listeArticleBon.length; i++) {
           this.supports=[]

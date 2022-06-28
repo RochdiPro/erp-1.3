@@ -24,7 +24,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 
 export class AjouterBonEntreeComponent implements OnInit {
-  lineaire = true;
+  lineaire = false;
   @ViewChild('stepperbonEntree') private myStepper: any = MatStepper;
 
   InformationsGeneralesForm: any = FormGroup;
@@ -187,10 +187,7 @@ export class AjouterBonEntreeComponent implements OnInit {
   }
    
   activerCalcul() { 
-      this.calcul();
-      this.calculAssiette();
-      this.verificationCh("");
-      this.testCheck(true);
+      this.calcul(); 
   }
   
   //activer/desactiver la step entree
@@ -390,7 +387,7 @@ export class AjouterBonEntreeComponent implements OnInit {
     }
   }
   //calculer les totaux
-  calcul() {
+  async calcul() {
     let total1 = 0;
     let total2 = 0;
     let total3 = 0;
@@ -414,8 +411,7 @@ export class AjouterBonEntreeComponent implements OnInit {
       total5 += (Number(this.fieldArray[i].Remise) * Number(this.fieldArray[i].PrixU) * Number(this.fieldArray[i].Quantite)) / 100;
       this.totalRemise = total5.toFixed(3);
       total9 += (Number(this.fieldArray[i].Fodec) * (Number(this.fieldArray[i].Quantite)));
-      this.totalPorcentageFodec = total9;      
-      console.log(this.fieldArray[i].PrixRevientU,"prix r u ")
+      this.totalPorcentageFodec = total9;  
       total6 += ((Number(this.fieldArray[i].PrixRevientU)) * (Number(this.fieldArray[i].Quantite)));
       this.totalRHT = total6.toFixed(3);
       total7 += ((Number(this.fieldArray[i].PrixRevientU)) * (Number(this.fieldArray[i].Quantite)) + Number(this.fieldArray[i].Montant_TVA) + Number(this.fieldArray[i].Montant_Fodec));
@@ -426,13 +422,11 @@ export class AjouterBonEntreeComponent implements OnInit {
       total10 += this.fieldArray[i].Montant_Fodec;
       total11 += (Number(this.fieldArray[i].PrixU) * Number(this.fieldArray[i].Quantite));
 
-      this.totalHTBrut = total11.toFixed(3);
-      this.totalMontantFodec = total10.toFixed(3);
-      this.totalMontantTVA = total1.toFixed(3);
-
-      console.log(total1 ,total2 ,total3 ,total4 ,total5 ,total6 ,total7 ,total8 ,total9 ,total10 ,total11 )
- 
+      this.totalHTBrut = Number (total11).toFixed(3);
+      this.totalMontantFodec =  Number (total10).toFixed(3);
+      this.totalMontantTVA =  Number ( total1).toFixed(3); 
     }
+    this.calculAssiette()
   }
   //Récuperer tous locaux
   Locals() {
@@ -488,7 +482,7 @@ export class AjouterBonEntreeComponent implements OnInit {
         // local: this.local
       }
     });
-    dialogRef.afterClosed().subscribe(res => {
+    dialogRef.afterClosed().subscribe(async res => {
 
       this.resultat_dialog = res.data
        if (res != undefined) {
@@ -501,9 +495,10 @@ export class AjouterBonEntreeComponent implements OnInit {
           }
           if (test == "0") { this.ajouter(this.resultat_dialog[i].id_Produit, this.resultat_dialog[i].prix, this.resultat_dialog[i].qte, this.resultat_dialog[i].remise); }
         }
+       
          this.activerCalcul();     
-         this.actiververifCh();
-      }
+  
+       }
     });
   }
 
@@ -642,10 +637,12 @@ export class AjouterBonEntreeComponent implements OnInit {
     }
   }
   //ajouter article 
-  ajouter(id: any, prix: any, qte: any, remise: any) {
+  async ajouter(id: any, prix: any, qte: any, remise: any) {
     this.click = !this.click;
     this.bonEntreeService.Produit(id).subscribe((response: Response) => {
       this.produitData = response;
+      this.newAttribute = {};
+
       this.newAttribute.Id_Produit = id;
       this.newAttribute.Id_produit = id;
       this.newAttribute.des = this.produitData.caracteristique_Technique;
@@ -693,16 +690,15 @@ export class AjouterBonEntreeComponent implements OnInit {
       this.newAttribute.FichierSimple = "";
       this.newAttribute.detail = []
       this.newAttribute.PrixRevientU = (Number(this.newAttribute.Montant_HT) + ((Number(this.Ch / 100)) * (Number(this.ChargeTransport) + Number(this.Autre_Charge_Fixe))) / Number(qte)).toFixed(3)
-      console.log(this.newAttribute.PrixRevientU)
-      //this.newAttribute.Ch_Piece = (((((Number(this.newAttribute.ChargeTr) + Number(this.newAttribute.AutreCharge)) * Number(this.newAttribute.Ch)) / 100)) / (Number(this.newAttribute.Quantite))).toFixed(3);
+       //this.newAttribute.Ch_Piece = (((((Number(this.newAttribute.ChargeTr) + Number(this.newAttribute.AutreCharge)) * Number(this.newAttribute.Ch)) / 100)) / (Number(this.newAttribute.Quantite))).toFixed(3);
 
       this.fieldArray.push(this.newAttribute);
-      this.calcul();
-      this.testCheck(true)
-      this.newAttribute = {};
-    });
+
+     
+    }); 
   }
-  // clacule 
+
+  // clacule des totals 
   calcule() {
     let total1 = 0;
     let total2 = 0;
@@ -773,22 +769,24 @@ export class AjouterBonEntreeComponent implements OnInit {
     if (this.newAttribute.Tva == 19) {
       this.assiettetva19 += (Number(Number(this.newAttribute.Montant_HT) + Number(this.totalMontantFodec)));
       this.Montanttva19 += (Number(Number(this.newAttribute.Total_TVA)) * Number(this.newAttribute.Quantite));
-      this.assiette19 = this.assiettetva19.toFixed(3);
-      this.Montant19 = this.Montanttva19.toFixed(3);
+      this.assiette19 = Number(this.assiettetva19).toFixed(3);
+      this.Montant19 =  Number(this.Montanttva19).toFixed(3);
     }
     else if (this.newAttribute.Tva == 7) {
       this.assiettetva7 += (Number(Number(this.newAttribute.Montant_HT) + Number(this.totalMontantFodec)));
       this.Montanttva7 += (Number(Number(this.newAttribute.Total_TVA) * Number(this.newAttribute.Quantite)));
-      this.assiette7 = this.assiettetva7.toFixed(3);
-      this.Montant7 = this.Montanttva7.toFixed(3);
+      this.assiette7 =  Number(this.assiettetva7).toFixed(3);
+      this.Montant7 =  Number(this.Montanttva7).toFixed(3);
     }
     else if (this.newAttribute.Tva == 13) {
       this.assiettetva13 += (Number(Number(this.newAttribute.Montant_HT) + Number(this.totalMontantFodec)));
       this.Montanttva13 += (Number(Number(this.newAttribute.Total_TVA) * Number(this.newAttribute.Quantite)));
-      this.assiette13 = this.assiettetva13.toFixed(3);
-      this.Montant13 = this.Montanttva13.toFixed(3);
+      this.assiette13 =  Number(this.assiettetva13).toFixed(3);
+      this.Montant13 =  Number(this.Montanttva13).toFixed(3);
     }
+    console.log(this.assiette19,this.assiette7,this.assiette13)
   }
+
   //activer/desactiver charge automatique
   testCheck(event: any) {
     if (event.checked == false) {
@@ -812,7 +810,7 @@ export class AjouterBonEntreeComponent implements OnInit {
   //calcul assiettes tva
   calculAssiette() {
     if (this.fieldArray.length == 0) {
-      this.tvaType = [];
+       this.tvaType = [];
       this.assiettetva19 = 0;
       this.Montanttva19 = 0
       this.assiettetva7 = 0
@@ -820,6 +818,7 @@ export class AjouterBonEntreeComponent implements OnInit {
       this.assiettetva13 = 0;
       this.Montanttva13 = 0;
     } else {
+ 
       this.assiettetva19 = 0;
       this.Montanttva19 = 0;
       this.assiettetva7 = 0;
@@ -830,20 +829,20 @@ export class AjouterBonEntreeComponent implements OnInit {
         if (this.fieldArray[i].Tva == 19) {
           this.assiettetva19 += (Number(Number(this.fieldArray[i].Montant_HT) + Number(this.totalMontantFodec)));
           this.Montanttva19 += (Number(Number(this.fieldArray[i].Total_TVA)) * (Number(this.fieldArray[i].Quantite)));
-          this.assiette19 = this.assiettetva19.toFixed(3);
-          this.Montant19 = this.Montanttva19.toFixed(3);
+          this.assiette19 = Number(this.assiettetva19).toFixed(3);
+          this.Montant19 = Number(this.Montanttva19).toFixed(3);
         }
         else if (this.fieldArray[i].Tva == 7) {
           this.assiettetva7 += (Number(Number(this.fieldArray[i].Montant_HT) + Number(this.totalMontantFodec)));
           this.Montanttva7 += (Number(Number(this.fieldArray[i].Total_TVA) * Number(this.fieldArray[i].Quantite)));
-          this.assiette7 = this.assiettetva7.toFixed(3);
-          this.Montant7 = this.Montanttva7.toFixed(3);
+          this.assiette7 = Number(this.assiettetva7).toFixed(3);
+          this.Montant7 = Number(this.Montanttva7).toFixed(3);
         }
         else if (this.fieldArray[i].Tva == 13) {
           this.assiettetva13 += (Number(Number(this.fieldArray[i].Montant_HT) + Number(this.totalMontantFodec)));
           this.Montanttva13 += (Number(Number(this.fieldArray[i].Total_TVA) * Number(this.fieldArray[i].Quantite)));
-          this.assiette13 = this.assiettetva13.toFixed(3);
-          this.Montant13 = this.Montanttva13.toFixed(3);
+          this.assiette13 = Number(this.assiettetva13).toFixed(3);
+          this.Montant13 = Number(this.Montanttva13).toFixed(3);
         }
       }
     }
@@ -1241,7 +1240,7 @@ export class AjouterBonEntreeComponent implements OnInit {
   }
 
  
-    async generatePDF_annexe(id: any, date_Creation: any) {
+  async generatePDF_annexe(id: any, date_Creation: any) {
     var body = [];
     var obj = new Array();
     obj.push(" ");
